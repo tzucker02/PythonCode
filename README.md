@@ -3,3 +3,4 @@ After some rather intensive courses, one of which was all about coding in Python
 
 Now for the code ...
 
+- [Model and evaluate different models](https://github.com/tzucker02/PythonCode/raw/main/model_eval.ipynb)

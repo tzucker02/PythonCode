@@ -10,6 +10,8 @@ Now for the code ...
 
 - [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb)
 - [Run other Jupyter notebooks and put resultant timings in python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
+
 <p></p>  
+
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)
 - [Python version of train, fit, and evaluate function - you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/model_eval.py)

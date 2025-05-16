@@ -9,8 +9,9 @@ The following code was tested on a Jupyter notebook (Anaconda version), and this
 Now for the code ...<br>
 NOTE on Code: in order to download the code:
   <ul>
-     <li>Navigate to this page and the code links on it</ul>li>
+     <li>Navigate to this page and the code links on it</ul>
      <li> right click on thee link </li>
+  </ul>
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb)
 - [Run other Jupyter notebooks and put resultant timings in python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)

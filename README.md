@@ -6,8 +6,8 @@ After some rather intensive courses, one of which was all about coding in Python
 <b>CAVEAT</b>: I have not gotten all this correct yet - but it is mostly there. Feel free to use and abuse...</br>
 The following code was tested on a Jupyter notebook (Anaconda version), and this cleansed version of the [Titanic dataset](https://github.com/EpistasisLab/pmlb/raw/refs/heads/master/datasets/titanic/titanic.tsv.gz). 
 
-Now for the code ...
-### Jupyter notebooks
+Now for the code ...<br>
+### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb)
 - [Run other Jupyter notebooks and put resultant timings in python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
 

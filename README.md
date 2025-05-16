@@ -18,4 +18,5 @@ Now for the code ...<br>
 - [Python version of train, fit, and evaluate function - you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/model_eval.py)
 - [Python version of the run other notebook and store timings file](https://github.com/tzucker02/PythonCode/blob/main/run_with_timings.py)
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)
-- [Read file and create a correlation matrix and a correlation plot](
+- [Read file and create a correlation matrix and a correlation plot](https://github.com/tzucker02/PythonCode/blob/main/CMP.py)
+- [Read file like above, but use an internal function call](https://github.com/tzucker02/PythonCode/blob/main/CMP_wcall.py)

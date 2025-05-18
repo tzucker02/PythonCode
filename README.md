@@ -27,5 +27,7 @@ NOTE on Code: in order to download the code:
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)
 - [Read file and create a correlation matrix and a correlation plot](https://github.com/tzucker02/PythonCode/blob/main/CMP.py)
 - [Read file like above, but use an internal function call](https://github.com/tzucker02/PythonCode/blob/main/CMP_wcall.py)
+<!--
 - [Plot the survival rate for passengers on the titanic](https://github.com/tzucker02/PythonCode/blob/main/plotsurvival.py)
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/blob/main/survivedpassengershistogram.py)
+-->

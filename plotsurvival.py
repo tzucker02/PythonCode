@@ -15,20 +15,31 @@ import sklearn.linear_model
 df = pd.read_csv('https://github.com/EpistasisLab/pmlb/raw/refs/heads/master/datasets/titanic/titanic.tsv.gz', sep = "\t")
 # drop rows with missing data while preserving the original dataset
 df_new = df.dropna()
+df_new.describe()
 
-survived_ages = df_new[df_new['target'] == 1]['age'].dropna()
-died_ages = df_new[df_new['target'] == 0]['age'].dropna()
+feature = input("Which feature do you want to compare against the target? ")
+print("The target is survival, and the feature to compare it to is " + feature)
+# entry test, if nothing has been entered, set the feature to age
+if feature == "":
+    print("You did not enter a feature, so the feature will be set to the age of the passenger.")
+    feature = 'age'
+elif feature == None:
+    print("You did not enter a feature, so the feature will be set to the age of the passenger.")
+    feature = 'age'
+elif feature not in df_new.columns:
+    print("You entered " + feature + " which is not a column in the dataset. The feature will default to age.")
+    # print("You did not enter a feature in the dataset, so the feature will be set to the age of the passenger.")
+    feature = 'age'
+
+# # boxplot distribution by survival
+survived_class = df_new[df_new['target'] == 1][feature].dropna()
+died_class = df_new[df_new['target'] == 0][feature].dropna()
 
 plt.figure(figsize=(8,10))
-plt.boxplot([died_ages, survived_ages], tick_labels=['Died (0)', 'Survived (1)'])
-plt.title('Age Distribution by Survival Status')
+plt.boxplot([died_class, survived_class], tick_labels=['Died (0)', 'Survived (1)'])
+plt.title(feature.upper() + ' Distribution by Survival Status')
 plt.xlabel('Survival Status')
-plt.ylabel('Age')
+plt.ylabel(feature.upper())
 plt.grid(True, alpha=.25)
-
-# save the plot as an image file
-plt.savefig('Boxplot_Age_by_Survival.png')
-# show the plot
 plt.show()
-# close the plot to regain memory resources
 plt.close()

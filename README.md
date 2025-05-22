@@ -11,7 +11,9 @@ NOTE on Code: in order to download the code:
   <ul>
      <li>Navigate to this page and the code links on it</li>
      <li>Right click on the link you wish to download</li>
-    <li></li>
+    <li>Click the down arrow icon at the top right of the page</li>
+    <li>If you let your mouse hover over the down arrow icon, it should say "download raw file"</li>
+    <li>Once you have clicked the download button, the file should be automatically downloaded onto your computer - check your downloads folder</li>
   </ul>
   
 ### Jupyter notebooks (.ipynb files)

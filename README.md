@@ -8,14 +8,14 @@ The following code was tested on a Jupyter notebook (Anaconda version), and this
 
 Now for the code ...<br>
 NOTE on Code: in order to download the code:
-  <ul>
+  <ol>
     <li>Navigate to this page and the code links on it</li>
     <li>Left click on the link you wish to download</li>
     <li>Click the down arrow icon at the top right of the resulting page</li>
     <li>If you let your mouse hover over the down arrow icon, it should say "download raw file"</li>
     <li>Once you have clicked the download button, the file should be automatically downloaded onto your computer - check your downloads folder</li>
-    <li><b>ALTERNATELY</b>, right-click on the file, choose "Save link as", find the file in your downloads folder</li>
-  </ul>
+    <li><b>ALTERNATELY</b>, skip steps 2 - 5 and right-click on the file, choose "Save link as", find the file in your downloads folder</li>
+  </ol>
   
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb)

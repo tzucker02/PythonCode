@@ -18,7 +18,7 @@ NOTE on Code: in order to download the code:
   </ol>
   
 ### Jupyter notebooks (.ipynb files)
-- [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb)
+- [Train, fit and evaluate different models](https://github.com/tzucker02/PythonCode/blob/main/model_eval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
 
 <p></p>  

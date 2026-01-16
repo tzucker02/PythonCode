@@ -16,7 +16,10 @@ NOTE on Code: in order to download the code:
     <li>Once you have clicked the download button, the file should be automatically downloaded onto your computer - check your downloads folder</li>
     <li><b>ALTERNATELY</b>, skip steps 2 - 5 and right-click on the file, choose "Save link as", find the file in your downloads folder</li>
   </ol>
-  
+
+### Executable Files
+- [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs)
+
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
@@ -24,8 +27,8 @@ NOTE on Code: in order to download the code:
 <p></p>  
 
 ### Python code (.py files)
+- [Python version of train, fit, and evaluate function, as above but you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.py)
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)
-- [Python version of train, fit, and evaluate function - you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.py)
 - [Python version of the run other notebook and store timings file](https://github.com/tzucker02/PythonCode/blob/main/run_with_timings.py)
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)
 - [Read file and create a correlation matrix and a correlation plot](https://github.com/tzucker02/PythonCode/blob/main/CMP.py)

@@ -1,3 +1,31 @@
+## This set of functions require the following inputs
+"""
+1. a complete path to a pandas dataframe (file_path)
+2. the separator used in the data file - preceded by a backslash (file_separator):
+    a. comma - \\,
+    b. semi-colon - \\;
+    c. colon - \\:
+    d. etc.
+3. the target to predict (target_col) - the target is assumed to be numeric
+
+For Plotting the script asks for 
+    a. plot titles for the axes
+    b. plot labels
+    c. Four(4) comma separated hex values for colors of the bars to be plotted
+ 
+For all the above, you can press enter to retain the default values (shown)
+
+The main code of this notebook looks like this:
+
+*train_it(file_path, target_col)*
+
+but other parts of the function require the file separator (file_separator) as well, in order to properly read in the file.
+
+NOTE: I have attempted to make the code as easy to read as possible by naming the functions with descriptive titles.
+"""
+
+from logging import root
+from unicodedata import name
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -7,9 +35,35 @@ import math
 import sys
 from IPython.display import display, Javascript
 import zipfile
+from ast import If
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+
+def greet_user():
+    root = tk.Tk()
+    root.withdraw()  # Hide main window
+    name = simpledialog.askstring("Input", "Enter your name:")
+    if name:
+        messagebox.showinfo("Greeting", f"Hello, {name}!")  
+    return   
+
+
+# function to read in file based on type
 
 def read_file(filepath, file_separator):
-    df = pd.read_csv(filepath, sep=file_separator, engine='python')
+    
+    if file_separator == None:
+        root = tk.Tk()
+        root.withdraw()  # Hide main window
+        file_type = simpledialog.askstring("Input", "Is your file fixed width(FW) or separated by a specific character(SC)? (FW/SC): ")
+    else:
+        file_type = 'SC'
+    
+    if file_type.upper() == 'FW':
+        df = pd.read_fwf(filepath)
+    else:
+        df = pd.read_csv(filepath, sep=file_separator, engine='python')
+        
     df_new = df.dropna()
     return df_new
 
@@ -17,21 +71,29 @@ def choose_target_column(df):
     from pandas.api.types import is_numeric_dtype
 
     numeric_cols = [col for col in df.columns if is_numeric_dtype(df[col])]
+    
     if not numeric_cols:
-        raise ValueError("No numeric columns found; please provide a dataset with at least one numeric target.")
-
-    print("Available numeric columns (choose a target):")
-    for idx, col in enumerate(numeric_cols, start=1):
-        print(f"[{idx}] {col}")
-
-    selection = input("Enter the number of the target column (default=1): ").strip()
+        messagebox.showinfo("Error", "No numeric columns found; please provide a dataset with at least one numeric target.")
+        # raise ValueError("No numeric columns found; please provide a dataset with at least one numeric target.")
+    root = tk.Tk()
+    root.withdraw()  # Hide main window
+    # print("Available numeric columns (choose a target - if your target is NOT numeric, your dataset may not be suitable):")
+    dict_numeric_cols = {}
+    # for idx, col in enumerate(numeric_cols, start=1):
+    #    dict_numeric_cols[str(idx)] = col
+        # messagebox.showinfo("Numeric Columns", f"[{idx}] {col}")
+        # print(f"[{idx}] {col}")
+    messagebox.showinfo("Numeric Columns", "\n".join([f"[{idx}] {col}" for idx, col in enumerate(numeric_cols, start=1)]))
+    
+    selection = simpledialog.askstring("Input", "Enter the number of the target column (default=1 - if your target is NOT numeric, your dataset may not be suitable): ").strip()
     if selection == "":
         selection = 1
     try:
         selection = int(selection)
         target = numeric_cols[selection - 1]
     except (ValueError, IndexError):
-        print("Invalid selection; defaulting to the first numeric column.")
+        messagebox.showinfo("Error", "Invalid selection; defaulting to the first numeric column.")
+        # print("Invalid selection; defaulting to the first numeric column.")
         target = numeric_cols[0]
 
     return target
@@ -41,27 +103,16 @@ def choose_target_column(df):
 def is_zip_file(filename):
     return zipfile.is_zipfile(filename)
 
-file_path = input("Full path to dataframe (zip files are not supported): ")
-file_separator = input("Separator used in dataframe (i.e., '\\t' for tab, '\,' for comma, etc., without the quotes: ")
+root = tk.Tk()
+root.withdraw()  # Hide main window
 
-# extract zip file if needed
+file_path = simpledialog.askstring("Input", "Full path to dataframe (zip files are not supported): ")
+file_separator = simpledialog.askstring("Input", "Separator used in dataframe (i.e., '\\t' for tab, '\,' for comma, etc., without the quotes: ")
+
 if is_zip_file(file_path):
-    # importing required modules
-    from zipfile import ZipFile
-
-    # specifying the zip file name
-    file_name = file_path
-
-    # opening the zip file in READ mode
-    with ZipFile(file_name, 'r') as zip:
-        # printing all the contents of the zip file
-        zip.printdir()
-
-    # extracting all the files
-    print('Extracting all the files now...')
-    zip.extractall()
-    print('Done!')
-    file_path = zip.namelist()[0]  # assuming we want the first file in the zip
+    messagebox.showinfo("Error", "ZIP files are not supported. Please provide a direct path to a supported filetype.")
+    # print("ZIP files are not supported. Please provide a direct path to a supported filetype.")
+    exit()
     
 try:
     dataframe = read_file(file_path,file_separator)
@@ -70,12 +121,34 @@ try:
     features = dataframe.drop(columns=[target_col])
     target_values = dataframe[target_col]
 except:
-    print("Error reading file. Please check the file path and separator. Please rerun this notebook and provide a link to a supported filetype.")
-    print("Supported filetypes include CSV, TSV, and other text-based formats compatible with pandas read_csv.")
+    messagebox.showinfo("Error", "Error reading file. Please check the file path and separator. Please rerun this notebook and provide a link to a supported filetype.")
     exit()
 
 
 def plot_to_compare(model_name1, score1, mse1, model_name2, score2, mse2, model_name3, score3, mse3, model_name4, score4, mse4):
+    
+    # Define axis titles and labels
+    root = tk.Tk()
+    root.withdraw()  # Hide main window
+    Axis1Title = simpledialog.askstring("Input", "Enter title for MSE plot: (Default: 'Model Mean Squared Error (LOWER IS BETTER)'): ")
+    if Axis1Title.strip() == "":
+        Axis1Title = "Model Mean Squared Error (LOWER IS BETTER)"
+    Axis2Title = simpledialog.askstring("Input", "Enter title for Accuracy plot: (Default: 'Model Accuracy (HIGHER IS BETTER)'): ")
+    if Axis2Title.strip() == "":
+        Axis2Title = "Model Accuracy (HIGHER IS BETTER)"
+    Axis1_YLabel = simpledialog.askstring("Input", "Enter label for MSE Y-axis (Default: 'Mean Squared Error'): ")
+    if Axis1_YLabel.strip() == "":
+        Axis1_YLabel = "Mean Squared Error"
+    Axis2_YLabel = simpledialog.askstring("Input", "Enter label for Accuracy Y-axis (Default: 'Accuracy'): ")
+    if Axis2_YLabel.strip() == "":
+        Axis2_YLabel = "Accuracy"
+        
+    # Define color palette
+    colorpalette = simpledialog.askstring("Input", "Enter 4 hex color codes separated by commas for the bars (Default: '#4E79A7 - skyblue,#F28E2B - orange,#E15759 - red,#76B7B2 - teal'): ")   
+    if colorpalette.strip() == "":
+        colorpalette = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2']
+    else:
+        colorpalette = [color.strip() for color in colorpalette.split(",")]
     
     print(f"\n\n\033[1mThis can be plotted with the following results:\033[0m\n")
     
@@ -84,20 +157,20 @@ def plot_to_compare(model_name1, score1, mse1, model_name2, score2, mse2, model_
     mse_scores = [mse1, mse2, mse3, mse4]
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 8))
-
-    bars1 = ax1.bar(models, mse_scores, color=['skyblue', 'orange', 'green', 'red'])
+    
+    bars1 = ax1.bar(models, mse_scores, color=colorpalette)
     for bar, score in zip(bars1, mse_scores):
         ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, f'{score:.4f}', ha='center', va='bottom', fontsize=8)
-    ax1.set_title('Model Mean Squared Error (LOWER IS BETTER)')
-    ax1.set_ylabel('MSE')
+    ax1.set_title(Axis1Title)
+    ax1.set_ylabel(Axis1_YLabel)
     ax1.set_ylim(0, max(mse_scores) * 1.1)
     ax1.grid(axis='y', linestyle='--', alpha=0.7)
 
-    bars2 = ax2.bar(models, scores, color=['skyblue', 'orange', 'green', 'red'])
+    bars2 = ax2.bar(models, scores, color=colorpalette)
     for bar, score in zip(bars2, scores):
         ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, f'{score:.4f}', ha='center', va='bottom', fontsize=8)
-    ax2.set_title('Model Accuracy (HIGHER IS BETTER)')
-    ax2.set_ylabel('Accuracy')
+    ax2.set_title(Axis2Title)
+    ax2.set_ylabel(Axis2_YLabel)
     ax2.set_ylim(0, max(scores) * 1.1)
     ax2.grid(axis='y', linestyle='--', alpha=0.7)
 
@@ -152,5 +225,6 @@ def train_it(data, target):
     plot_to_compare(model_name1, score1, mse1, model_name2, score2, mse2, model_name3, score3, mse3, model_name4, score4, mse4)
 
     return
+
 
 train_it(dataframe, target_col)

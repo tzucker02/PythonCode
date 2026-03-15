@@ -20,6 +20,7 @@ NOTE on Code: in order to download the code:
 ### Executable Files
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
 - [Fill a PDF form](https://drive.google.com/file/d/1ihxn8C5BWgKzV0oZpWEz9eq4g6PEPwDa/view?usp=drive_link) - note that this is a link to google drive since the file is humongous!
+- [File watcher executable](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.exe)
 
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
@@ -30,6 +31,7 @@ NOTE on Code: in order to download the code:
 ### Python code (.py files)
 - [Python version of train, fit, and evaluate function, as above but you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.py)
 - [Fill a PDF form](https://github.com/tzucker02/PythonCode/blob/main/fill_form.py)
+- [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.py)
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)
 - [Python version of the run other notebook and store timings file](https://github.com/tzucker02/PythonCode/blob/main/run_with_timings.py)
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)

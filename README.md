@@ -26,6 +26,8 @@ NOTE on Code: in order to download the code:
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
 - [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.ipynb) - a script to watch any changes to a given directory
+- [Plotly graphs of interest]()
+- [Different table types]()
 
 <p></p>  
 

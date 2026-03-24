@@ -27,7 +27,7 @@ NOTE on Code: in order to download the code:
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
 - [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.ipynb) - a script to watch any changes to a given directory
 - [Plotly graphs of interest](https://github.com/tzucker02/PythonCode/blob/main/plotly%20-%20working.ipynb)
-- [Different table types]()
+- [Different table types](https://github.com/tzucker02/PythonCode/blob/main/tables.ipynb)
 
 <p></p>  
 

@@ -43,7 +43,7 @@ NOTE on Code: in order to download the code:
 - [Plot the survival rate for passengers on the titanic](https://github.com/tzucker02/PythonCode/blob/main/plotsurvival.py)
   
 ### Compressed files
-- [Vendor Manager - still working](https://github.com/tzucker02/PythonCode/blob/main/Vendor%20Manager.zip)
+- [Vendor Manager - still working](https://github.com/tzucker02/PythonCode/raw/main/Vendor%20Manager.zip)
 
 <!--
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)

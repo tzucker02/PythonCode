@@ -39,6 +39,9 @@ NOTE on Code: in order to download the code:
 - [Python version of the run other notebook and store timings file](https://github.com/tzucker02/PythonCode/blob/main/run_with_timings.py)
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)
 - [Read file and create a correlation matrix and a correlation plot](https://github.com/tzucker02/PythonCode/blob/main/CMP.py)
+
+### Compressed files
+- [Vendor Manager - still working]
 - [Read file like above, but use an internal function call](https://github.com/tzucker02/PythonCode/blob/main/CMP_wcall.py)
 - [Plot the survival rate for passengers on the titanic](https://github.com/tzucker02/PythonCode/blob/main/plotsurvival.py)
 <!--

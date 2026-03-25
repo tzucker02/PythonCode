@@ -46,5 +46,5 @@ NOTE on Code: in order to download the code:
 - [Vendor Manager - still working](https://github.com/tzucker02/PythonCode/blob/main/Vendor%20Manager.zip)
 
 <!--
-- [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/blob/main/survivedpassengershistogram.py)
+- [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)
 -->

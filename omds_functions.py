@@ -44,7 +44,6 @@ def find_outliers(dataframe):
         print(f"Outliers in column '{column}':")
         print(outliers[[column]])
 
-# %%
 def calculate_r2_for_datasets(datasets, target_map, test_size=0.2, random_state=42):
     """Calculate test-set R2 for each dataset in a dict.
 
@@ -212,3 +211,161 @@ def regplotter(df, feature1, feature1_title, feature2, feature2_title, feature3,
 def regplottter(df, feature1, feature1_title, feature2, feature2_title, feature3, feature3_title):
     """Backward-compatible wrapper for the common misspelling of regplotter."""
     return regplotter(df, feature1, feature1_title, feature2, feature2_title, feature3, feature3_title)
+
+def compare_trees_cal_housing_data(metric_choice="rmse", single_tree_params=None, bagging_params=None, rf_params=None):
+    # Compare single DecisionTree, Bagged trees, and RandomForest on California housing
+    # - Dataset: California housing (sklearn)
+    # - Models:
+    #   * Single DecisionTreeRegressor
+    #   * BaggingRegressor with DecisionTreeRegressor as estimator (bagging only)
+    #   * RandomForestRegressor (bagging + per-split feature subsampling)
+    # - For each model we print train/test metrics and feature importances.
+    #
+    # User-selectable places:
+    #  - metric_choice: choose "mse", "rmse", "mae", "r2", or "explained_variance"
+    #  - single_tree_params: dict for DecisionTreeRegressor (e.g., {"max_depth": 8})
+    #  - bagging_params: dict for BaggingRegressor (e.g., {"n_estimators": 50})
+    #  - rf_params: dict for RandomForestRegressor (e.g., {"n_estimators": 100, "max_features": "sqrt"})
+    #
+    # Note: sklearn APIs vary by version. Modern sklearn uses `estimator=` for BaggingRegressor;
+    # older versions used `base_estimator=`. This script uses `estimator=`.
+
+    import numpy as np
+    import pandas as pd
+    from sklearn.datasets import fetch_california_housing
+    from sklearn.tree import DecisionTreeRegressor
+    from sklearn.ensemble import BaggingRegressor, RandomForestRegressor
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, explained_variance_score
+
+    # ------------------ User-selectable choices ------------------
+    # Choose performance metric: "mse", "rmse", "mae", "r2", "explained_variance"
+    metric_choice = "rmse"  # change to "mse", "mae", "r2", or "explained_variance"
+
+    # Single decision tree hyperparameters
+    single_tree_params = {
+        "criterion": "squared_error",  # "squared_error" (MSE) in sklearn >=1.0
+        "max_depth": 8,                # set to None to grow fully
+        "min_samples_leaf": 1,
+        "random_state": 0
+    }
+
+    # Bagging parameters (estimator + bagging settings)
+    bagging_params = {
+        "estimator": DecisionTreeRegressor(criterion="squared_error", max_depth=None, min_samples_leaf=1, random_state=0),
+        "n_estimators": 50,            # number of trees in the bag
+        "max_samples": 1.0,            # fraction or int (bootstrap sample size)
+        "max_features": 1.0,           # fraction or int (features per base estimator)
+        "bootstrap": True,
+        "bootstrap_features": False,
+        "n_jobs": -1,
+        "random_state": 0
+    }
+
+    # Random forest parameters
+    rf_params = {
+        "n_estimators": 100,
+        "criterion": "squared_error",
+        "max_depth": None,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt",        # per-split feature subsampling; change as desired
+        "random_state": 0,
+        "n_jobs": -1
+    }
+    # --------------------------------------------------------------
+
+    # Metric wrapper
+    def compute_metric(y_true, y_pred, choice="rmse"):
+        if choice == "mse":
+            return mean_squared_error(y_true, y_pred)
+        elif choice == "rmse":
+            return np.sqrt(mean_squared_error(y_true, y_pred))
+        elif choice == "mae":
+            return mean_absolute_error(y_true, y_pred)
+        elif choice == "r2":
+            return r2_score(y_true, y_pred)
+        elif choice == "explained_variance":
+            return explained_variance_score(y_true, y_pred)
+        else:
+            raise ValueError("Unknown metric_choice: " + str(choice))
+
+    # Load data
+    cal = fetch_california_housing()
+    X = pd.DataFrame(cal.data, columns=cal.feature_names)
+    y = pd.Series(cal.target, name="MedHouseVal")
+    feature_names = list(X.columns)
+
+    # Train/test split (user can adjust test_size and random_state here if desired)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+
+    # Helper to format and print feature importances
+    def print_feature_importances(importances, names, title):
+        s = pd.Series(importances, index=names).sort_values(ascending=False)
+        print(title)
+        print(s.to_string())
+        print()
+
+    # 1) Single Decision Tree
+    dt = DecisionTreeRegressor(**single_tree_params)
+    dt.fit(X_train, y_train)
+    pred_train_dt = dt.predict(X_train)
+    pred_test_dt = dt.predict(X_test)
+    metric_train_dt = compute_metric(y_train, pred_train_dt, metric_choice)
+    metric_test_dt = compute_metric(y_test, pred_test_dt, metric_choice)
+
+    print("=== Single Decision Tree ===")
+    print("Params:", single_tree_params)
+    print(f"Train {metric_choice}: {metric_train_dt:.6f}")
+    print(f"Test  {metric_choice}: {metric_test_dt:.6f}")
+    print_feature_importances(dt.feature_importances_, feature_names, "Feature importances (single tree):")
+
+    # 2) Bagged trees (BaggingRegressor)
+    bag = BaggingRegressor(**bagging_params)
+    bag.fit(X_train, y_train)
+    pred_train_bag = bag.predict(X_train)
+    pred_test_bag = bag.predict(X_test)
+    metric_train_bag = compute_metric(y_train, pred_train_bag, metric_choice)
+    metric_test_bag = compute_metric(y_test, pred_test_bag, metric_choice)
+
+    # Compute averaged feature importances across base estimators if they expose feature_importances_
+    base_importances = []
+    for est in bag.estimators_:
+        # in BaggingRegressor, estimators_ are fitted clones of the provided estimator
+        if hasattr(est, "feature_importances_"):
+            base_importances.append(est.feature_importances_)
+    if len(base_importances) > 0:
+        avg_importances = np.mean(base_importances, axis=0)
+    else:
+        avg_importances = np.zeros(len(feature_names))
+
+    print("=== Bagged Trees (BaggingRegressor) ===")
+    print("Params:", {k: v for k, v in bagging_params.items() if k != "estimator"})
+    print(f"n_estimators: {bagging_params['n_estimators']}")
+    print(f"Train {metric_choice}: {metric_train_bag:.6f}")
+    print(f"Test  {metric_choice}: {metric_test_bag:.6f}")
+    print_feature_importances(avg_importances, feature_names, "Averaged feature importances (bagged trees):")
+
+    # 3) Random Forest
+    rf = RandomForestRegressor(**rf_params)
+    rf.fit(X_train, y_train)
+    pred_train_rf = rf.predict(X_train)
+    pred_test_rf = rf.predict(X_test)
+    metric_train_rf = compute_metric(y_train, pred_train_rf, metric_choice)
+    metric_test_rf = compute_metric(y_test, pred_test_rf, metric_choice)
+
+    print("=== Random Forest ===")
+    print("Params:", rf_params)
+    print(f"Train {metric_choice}: {metric_train_rf:.6f}")
+    print(f"Test  {metric_choice}: {metric_test_rf:.6f}")
+    print_feature_importances(rf.feature_importances_, feature_names, "Feature importances (random forest):")
+
+    # Summary table
+    summary = pd.DataFrame({
+        "model": ["DecisionTree", "BaggedTrees", "RandomForest"],
+        "train_" + metric_choice: [metric_train_dt, metric_train_bag, metric_train_rf],
+        "test_" + metric_choice: [metric_test_dt, metric_test_bag, metric_test_rf]
+    })
+    print("=== Summary ===")
+    print(summary.to_string(index=False))
+
+    # End of script

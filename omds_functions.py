@@ -6,6 +6,10 @@ from scipy import stats
 import importlib
 
 
+def _as_1d_y(y):
+    return np.asarray(y).ravel()
+
+
 def show_missing_columns(df, lower_bound, upper_bound):
     missing_percent = (df.isnull().sum() / len(df)) * 100
     filtered_missing = missing_percent[(missing_percent > lower_bound) & (missing_percent <= upper_bound)]
@@ -79,7 +83,7 @@ def calculate_r2_for_datasets(datasets, target_map, test_size=0.2, random_state=
 
         data = df.copy().dropna(subset=[target_col])
         X = data.drop(columns=[target_col])
-        y = data[target_col]
+        y = _as_1d_y(data[target_col])
 
         if len(data) < 3:
             results.append({"dataset": name, "r2": None, "note": "Not enough rows"})
@@ -207,6 +211,33 @@ def regplotter(df, feature1, feature1_title, feature2, feature2_title, feature3,
     
     return slope, intercept, r_squared, p_value
 
+def  tree_compare(df, target_col, feature_cols, test_size=0.2, random_state=42):
+    
+    import numpy as np
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import root_mean_squared_error
+    
+    X_cmp = df[feature_cols].dropna()
+    y_cmp = _as_1d_y((df.loc[X_cmp.index, target_col] > 0).astype(int))
+
+    X_train_cmp, X_test_cmp, y_train_cmp, y_test_cmp = train_test_split(
+        X_cmp, y_cmp, test_size=0.2, random_state=42, stratify=y_cmp
+    )
+
+    rf_clf_cmp = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+    rf_clf_cmp.fit(X_train_cmp, y_train_cmp)
+    y_pred_clf_cmp = rf_clf_cmp.predict(X_test_cmp)
+    rmse_clf = root_mean_squared_error(y_test_cmp, y_pred_clf_cmp)
+
+    rf_reg_cmp = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
+    rf_reg_cmp.fit(X_train_cmp, y_train_cmp)
+    y_pred_reg_cmp = rf_reg_cmp.predict(X_test_cmp)
+    rmse_reg = root_mean_squared_error(y_test_cmp, y_pred_reg_cmp)
+
+    print(f"RandomForestClassifier RMSE: {rmse_clf:.4f}")
+    print(f"RandomForestRegressor RMSE: {rmse_reg:.4f}")
+    print("Lower RMSE:", "Classifier" if rmse_clf < rmse_reg else "Regressor")
 
 def regplottter(df, feature1, feature1_title, feature2, feature2_title, feature3, feature3_title):
     """Backward-compatible wrapper for the common misspelling of regplotter."""

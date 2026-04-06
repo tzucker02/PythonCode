@@ -6,10 +6,6 @@ from scipy import stats
 import importlib
 
 
-def _as_1d_y(y):
-    return np.asarray(y).ravel()
-
-
 def show_missing_columns(df, lower_bound, upper_bound):
     missing_percent = (df.isnull().sum() / len(df)) * 100
     filtered_missing = missing_percent[(missing_percent > lower_bound) & (missing_percent <= upper_bound)]
@@ -83,7 +79,7 @@ def calculate_r2_for_datasets(datasets, target_map, test_size=0.2, random_state=
 
         data = df.copy().dropna(subset=[target_col])
         X = data.drop(columns=[target_col])
-        y = _as_1d_y(data[target_col])
+        y = data[target_col]
 
         if len(data) < 3:
             results.append({"dataset": name, "r2": None, "note": "Not enough rows"})
@@ -219,7 +215,7 @@ def  tree_compare(df, target_col, feature_cols, test_size=0.2, random_state=42):
     from sklearn.metrics import root_mean_squared_error
     
     X_cmp = df[feature_cols].dropna()
-    y_cmp = _as_1d_y((df.loc[X_cmp.index, target_col] > 0).astype(int))
+    y_cmp = (df.loc[X_cmp.index, target_col] > 0).astype(int)
 
     X_train_cmp, X_test_cmp, y_train_cmp, y_test_cmp = train_test_split(
         X_cmp, y_cmp, test_size=0.2, random_state=42, stratify=y_cmp
@@ -390,7 +386,6 @@ def compare_trees_cal_housing_data(metric_choice="rmse", single_tree_params=None
     print(f"Test  {metric_choice}: {metric_test_rf:.6f}")
     print_feature_importances(rf.feature_importances_, feature_names, "Feature importances (random forest):")
 
-    # Summary table
     summary = pd.DataFrame({
         "model": ["DecisionTree", "BaggedTrees", "RandomForest"],
         "train_" + metric_choice: [metric_train_dt, metric_train_bag, metric_train_rf],
@@ -398,5 +393,152 @@ def compare_trees_cal_housing_data(metric_choice="rmse", single_tree_params=None
     })
     print("=== Summary ===")
     print(summary.to_string(index=False))
+    
+def compare_random_forest(
+    df,
+    target_col,
+    feature_cols=None,
+    test_size=0.2,
+    random_state=42,
+    threshold=0.0,
+    n_estimators=200,
+    max_depth=10,
+):
+    """Compare RandomForestClassifier vs RandomForestRegressor for DCD 2025 data.
 
-    # End of script
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset.
+    target_col : str
+        Continuous target column (for example, a delta temperature metric).
+    feature_cols : list[str] | None
+        Feature columns to use. If None, all columns except target_col are used.
+    test_size : float
+        Fraction of rows reserved for testing.
+    random_state : int
+        Seed for reproducibility.
+    threshold : float
+        Threshold used to create binary labels for the classifier: y > threshold.
+    n_estimators : int
+        Number of trees for both RF models.
+    max_depth : int | None
+        Maximum tree depth for both RF models.
+
+    Returns
+    -------
+    dict
+        RMSE values and the better model name.
+    """
+    import pandas as pd
+    from sklearn.compose import ColumnTransformer
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+    from sklearn.impute import SimpleImputer
+    from sklearn.metrics import root_mean_squared_error
+    from sklearn.model_selection import train_test_split
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import OneHotEncoder
+
+    if target_col not in df.columns:
+        raise ValueError(f"target_col '{target_col}' is not present in the dataframe.")
+
+    if feature_cols is None:
+        feature_cols = [c for c in df.columns if c != target_col]
+
+    missing_features = [c for c in feature_cols if c not in df.columns]
+    if missing_features:
+        raise ValueError(f"feature_cols contain missing columns: {missing_features}")
+
+    work_df = df[feature_cols + [target_col]].copy()
+    work_df = work_df.dropna(subset=[target_col])
+
+    X = work_df[feature_cols]
+    y_reg = pd.to_numeric(work_df[target_col], errors="coerce")
+    valid_rows = y_reg.notna()
+    X = X.loc[valid_rows]
+    y_reg = y_reg.loc[valid_rows]
+
+    if len(X) < 10:
+        raise ValueError("Not enough valid rows after cleaning to train/test split.")
+
+    y_clf = (y_reg > threshold).astype(int)
+    stratify_vec = y_clf if y_clf.nunique() > 1 else None
+
+    X_train, X_test, y_train_reg, y_test_reg, y_train_clf, y_test_clf = train_test_split(
+        X, y_reg, y_clf,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=stratify_vec,
+    )
+
+    numeric_cols = X.select_dtypes(include=["number", "bool"]).columns.tolist()
+    categorical_cols = [c for c in X.columns if c not in numeric_cols]
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "num",
+                Pipeline(steps=[("imputer", SimpleImputer(strategy="median"))]),
+                numeric_cols,
+            ),
+            (
+                "cat",
+                Pipeline(
+                    steps=[
+                        ("imputer", SimpleImputer(strategy="most_frequent")),
+                        ("onehot", OneHotEncoder(handle_unknown="ignore")),
+                    ]
+                ),
+                categorical_cols,
+            ),
+        ],
+        remainder="drop",
+    )
+
+    clf_model = Pipeline(
+        steps=[
+            ("prep", preprocessor),
+            (
+                "rf",
+                RandomForestClassifier(
+                    n_estimators=n_estimators,
+                    max_depth=max_depth,
+                    random_state=random_state,
+                ),
+            ),
+        ]
+    )
+
+    reg_model = Pipeline(
+        steps=[
+            ("prep", preprocessor),
+            (
+                "rf",
+                RandomForestRegressor(
+                    n_estimators=n_estimators,
+                    max_depth=max_depth,
+                    random_state=random_state,
+                ),
+            ),
+        ]
+    )
+
+    clf_model.fit(X_train, y_train_clf)
+    y_pred_clf = clf_model.predict(X_test)
+    rmse_clf = root_mean_squared_error(y_test_clf, y_pred_clf)
+
+    reg_model.fit(X_train, y_train_reg)
+    y_pred_reg = reg_model.predict(X_test)
+    rmse_reg = root_mean_squared_error(y_test_reg, y_pred_reg)
+
+    better_model = "Classifier" if rmse_clf < rmse_reg else "Regressor"
+
+    print(f"RandomForestClassifier RMSE: {rmse_clf:.4f}")
+    print(f"RandomForestRegressor RMSE: {rmse_reg:.4f}")
+    print(f"Lower RMSE: {better_model}")
+
+    return {
+        "rmse_classifier": rmse_clf,
+        "rmse_regressor": rmse_reg,
+        "better_model": better_model,
+    }

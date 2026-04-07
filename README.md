@@ -36,6 +36,7 @@ NOTE on Code: in order to download the code:
 - [Fill a PDF form](https://github.com/tzucker02/PythonCode/blob/main/fill_form.py)
 - [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.py) - a script to watch any changes to a given directory
 - [Functions used in my OMDS homeworks](https://github.com/tzucker02/PythonCode/blob/main/omds_functions.py)
+- [Basic code to time your jupyter notebooks](https://github.com/tzucker02/PythonCode/blob/main/timer.py)
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)
 - [Python version of the run other notebook and store timings file](https://github.com/tzucker02/PythonCode/blob/main/run_with_timings.py)
 - [Function to read a file into python/jupyter notebook environment](https://github.com/tzucker02/PythonCode/blob/main/read_file_function.py)

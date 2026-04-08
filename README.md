@@ -47,9 +47,9 @@ NOTE on Code: in order to download the code:
   
 ### Compressed files
 - [Vendor Manager](https://github.com/tzucker02/PythonCode/raw/main/Vendor%20Manager.zip)
-
 - [New York Times bulk python downloader using categories](https://github.com/tzucker02/PythonCode/blob/main/nyt_recipe_to_pdf_category.py)
 - [New york Times bulk text file](https://github.com/tzucker02/PythonCode/blob/main/my_recipes_blank.txt)
+
 <!--
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)
 -->

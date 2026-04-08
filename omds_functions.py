@@ -5,6 +5,134 @@ import seaborn as sns
 from scipy import stats
 import importlib
 
+def compare_rf_models(df, feature_cols, target_col):
+
+    import numpy as np
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+    from sklearn.metrics import root_mean_squared_error
+
+    X_cmp = df[feature_cols].dropna()
+    y_cmp = (df.loc[X_cmp.index, target_col] > 0).astype(int)
+
+    X_train_cmp, X_test_cmp, y_train_cmp, y_test_cmp = train_test_split(
+        X_cmp, y_cmp, test_size=0.2, random_state=42, stratify=y_cmp
+    )
+
+    rf_clf_cmp = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+    rf_clf_cmp.fit(X_train_cmp, y_train_cmp)
+    y_pred_clf_cmp = rf_clf_cmp.predict(X_test_cmp)
+    rmse_clf = root_mean_squared_error(y_test_cmp, y_pred_clf_cmp)
+
+    rf_reg_cmp = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
+    rf_reg_cmp.fit(X_train_cmp, y_train_cmp)
+    y_pred_reg_cmp = rf_reg_cmp.predict(X_test_cmp)
+    rmse_reg = root_mean_squared_error(y_test_cmp, y_pred_reg_cmp)
+
+    print(f"RandomForestClassifier RMSE: {rmse_clf:.4f}")
+    print(f"RandomForestRegressor RMSE: {rmse_reg:.4f}")
+    print("Lower RMSE:", "Classifier" if rmse_clf < rmse_reg else "Regressor")
+
+def run_rf_5fold(
+    data,
+    feature_cols,
+    target_col,
+    *,
+    delimiter=None,
+    n_splits=5,
+    random_state=42,
+    n_estimators=200,
+    max_depth=10,
+    show_progress=True,
+    show_plot=True,
+):
+    """Run RandomForestRegressor K-fold CV with RMSE reporting and optional plot."""
+
+    # imports
+    import warnings
+    from pathlib import Path
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.metrics import root_mean_squared_error
+    from sklearn.model_selection import KFold
+    # from tqdm.auto import tqdm
+
+    warnings.filterwarnings(
+        "ignore",
+        message="Pandas requires version '2.10.2' or newer of 'numexpr'",
+    )
+
+
+    if isinstance(data, (str, Path)):
+        read_csv_kwargs = {"sep": delimiter} if delimiter is not None else {}
+        df = pd.read_csv(data, **read_csv_kwargs)
+        dataset_name = Path(data).stem
+    elif isinstance(data, pd.DataFrame):
+        df = data.copy()
+        dataset_name = df.attrs.get("name", "dataset")
+    else:
+        raise TypeError("data must be a pandas DataFrame or a file path")
+
+    required_cols = list(feature_cols) + [target_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Missing required columns: {missing_cols}")
+
+    reg_df = df[required_cols].dropna()
+    X = reg_df[feature_cols]
+    y = reg_df[target_col]
+
+    cv = KFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+    rmse_scores = []
+    total_folds = cv.get_n_splits()
+
+    fold_iter = cv.split(X)
+    # if show_progress:
+    #     fold_iter = tqdm(fold_iter, total=total_folds, desc="CV Progress", mininterval=1)
+
+    for train_idx, test_idx in fold_iter:
+        model = RandomForestRegressor(
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            random_state=random_state,
+        )
+        model.fit(X.iloc[train_idx], y.iloc[train_idx])
+        y_pred = model.predict(X.iloc[test_idx])
+        rmse_scores.append(root_mean_squared_error(y.iloc[test_idx], y_pred))
+
+    rmse_scores = np.array(rmse_scores)
+
+    print("5-Fold RMSE scores:" if n_splits == 5 else f"{n_splits}-Fold RMSE scores:")
+    for i, score in enumerate(rmse_scores, start=1):
+        print(f"Fold {i}: {score:.4f}")
+    print(f"Mean RMSE: {rmse_scores.mean():.4f}")
+    print(f"Std RMSE: {rmse_scores.std():.4f}")
+
+    if show_plot:
+        plt.figure(figsize=(8, 4.5))
+        plt.bar(range(1, total_folds + 1), rmse_scores, color="#2a9d8f", edgecolor="black")
+        plt.axhline(
+            rmse_scores.mean(),
+            color="#e76f51",
+            linestyle="--",
+            linewidth=2,
+            label=f"Mean RMSE = {rmse_scores.mean():.4f}",
+        )
+        plt.xticks(range(1, total_folds + 1), [f"Fold {i}" for i in range(1, total_folds + 1)])
+        plt.ylabel("RMSE")
+        plt.title(f"{n_splits}-Fold Cross-Validation RMSE ({dataset_name})")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+    return {
+        "rmse_scores": rmse_scores,
+        "mean_rmse": float(rmse_scores.mean()),
+        "std_rmse": float(rmse_scores.std()),
+    }
 
 def show_missing_columns(df, lower_bound, upper_bound):
     missing_percent = (df.isnull().sum() / len(df)) * 100

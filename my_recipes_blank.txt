@@ -1,0 +1,23 @@
+# NYT Cooking Recipe URLs — one per line
+# Lines starting with # are ignored
+# Tip: While logged in to cooking.nytimes.com, open your Recipe Box,
+# right-click each recipe and "Copy Link", then paste here.
+#
+# Paste your recipe box URLs below:
+
+Category: Breads
+
+Category: Cakes
+
+Category: Easy Greens
+
+Category: Easy Vegan Recipes
+
+Category: Main Course
+
+Category: No-Recipe Recipe
+
+Category: Salads
+
+
+

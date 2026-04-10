@@ -1,3 +1,5 @@
+import warnings
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -5,6 +7,159 @@ import seaborn as sns
 from scipy import stats
 import importlib
 
+def RF_regressor(df, dfname, feature_cols, target_col):
+    
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.metrics import root_mean_squared_error
+    import warnings
+    
+    # Suppress pandas warning about numexpr minimum version
+    warnings.filterwarnings("ignore", message="Pandas requires version '2.10.2' or newer of 'numexpr'")
+
+    reg_df = df[feature_cols + [target_col]].dropna()
+    X = reg_df[feature_cols]
+    y = reg_df[target_col]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    rf_reg_df = RandomForestRegressor(
+        n_estimators=200, max_depth=10, random_state=42
+    )
+    rf_reg_df.fit(X_train, y_train)
+
+    y_pred = rf_reg_df.predict(X_test)
+    rmse = root_mean_squared_error(y_test, y_pred)
+
+    print(f"RandomForestRegressor RMSE on {dfname}: {rmse:.4f}")
+    
+def kfold_cross_val(df,dfname,feature_cols,target_col):
+    import warnings
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.metrics import root_mean_squared_error
+    from sklearn.model_selection import KFold
+
+    # Suppress pandas warning about numexpr minimum version
+    warnings.filterwarnings("ignore", message="Pandas requires version '2.10.2' or newer of 'numexpr'")
+
+    df.attrs["name"] = dfname
+
+    reg_df = df[feature_cols + [target_col]].dropna()
+    X = reg_df[feature_cols]
+    y = reg_df[target_col]
+
+    # Define model settings and 5-fold CV
+    cv = KFold(n_splits=5, shuffle=True, random_state=42)
+    rmse_scores = []
+    total_folds = cv.get_n_splits()
+
+    for fold_num, (train_idx, test_idx) in enumerate(cv.split(X), start=1):
+        model = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
+        model.fit(X.iloc[train_idx], y.iloc[train_idx])
+        y_pred = model.predict(X.iloc[test_idx])
+        rmse_scores.append(root_mean_squared_error(y.iloc[test_idx], y_pred))
+
+    rmse_scores = np.array(rmse_scores)
+
+    print("5-Fold RMSE scores:")
+    for i, score in enumerate(rmse_scores, start=1):
+        print(f"Fold {i}: {score:.4f}")
+    print(f"Mean RMSE: {rmse_scores.mean():.4f}")
+    print(f"Std RMSE: {rmse_scores.std():.4f}")
+
+    # Plot fold-wise RMSE and overall average
+    plt.figure(figsize=(8, 4.5))
+    plt.bar(range(1, 6), rmse_scores, color="#2a9d8f", edgecolor="black")
+    plt.axhline(rmse_scores.mean(), color="#e76f51", linestyle="--", linewidth=2, label=f"Mean RMSE = {rmse_scores.mean():.4f}")
+    plt.xticks(range(1, 6), [f"Fold {i}" for i in range(1, 6)])
+    plt.ylabel("RMSE")
+    plt.title(f"5-Fold Cross-Validation RMSE for {df.attrs.get('name', 'Dataset')}")
+    plt.legend()
+    plt.tight_layout()
+    plt.show();
+
+def tree_mode(df, feature_cols, target_col, mode="regressor"):
+
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+    from sklearn.metrics import (
+        accuracy_score,
+        f1_score,
+        mean_absolute_error,
+        r2_score,
+        roc_auc_score,
+        root_mean_squared_error,
+    )
+
+    mode_normalized = mode.strip().lower()
+
+    if mode_normalized in ("classifier", "classification"):
+        X_cmp = df[feature_cols].dropna()
+        y_cmp = (df.loc[X_cmp.index, target_col] > 0).astype(int)
+
+        stratify_y = y_cmp if y_cmp.nunique() > 1 else None
+        X_train_cmp, X_test_cmp, y_train_cmp, y_test_cmp = train_test_split(
+            X_cmp, y_cmp, test_size=0.2, random_state=42, stratify=stratify_y
+        )
+
+        model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+        model.fit(X_train_cmp, y_train_cmp)
+        y_pred = model.predict(X_test_cmp)
+
+        if y_test_cmp.nunique() > 1:
+            y_proba = model.predict_proba(X_test_cmp)[:, 1]
+            roc_auc = float(roc_auc_score(y_test_cmp, y_proba))
+        else:
+            roc_auc = float("nan")
+
+        results = {
+            "mode": "classification",
+            "accuracy": float(accuracy_score(y_test_cmp, y_pred)),
+            "f1": float(f1_score(y_test_cmp, y_pred, zero_division=0)),
+            "roc_auc": roc_auc,
+            "n_train": int(len(X_train_cmp)),
+            "n_test": int(len(X_test_cmp)),
+        }
+
+        print(f"RandomForestClassifier Accuracy: {results['accuracy']:.4f}")
+        print(f"RandomForestClassifier F1: {results['f1']:.4f}")
+        print(f"RandomForestClassifier ROC-AUC: {results['roc_auc']:.4f}")
+        return results
+
+    if mode_normalized in ("regressor", "regression"):
+        reg_df = df[feature_cols + [target_col]].dropna()
+        X_cmp = reg_df[feature_cols]
+        y_cmp = reg_df[target_col]
+
+        X_train_cmp, X_test_cmp, y_train_cmp, y_test_cmp = train_test_split(
+            X_cmp, y_cmp, test_size=0.2, random_state=42
+        )
+
+        model = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
+        model.fit(X_train_cmp, y_train_cmp)
+        y_pred = model.predict(X_test_cmp)
+
+        results = {
+            "mode": "regression",
+            "rmse": float(root_mean_squared_error(y_test_cmp, y_pred)),
+            "mae": float(mean_absolute_error(y_test_cmp, y_pred)),
+            "r2": float(r2_score(y_test_cmp, y_pred)),
+            "n_train": int(len(X_train_cmp)),
+            "n_test": int(len(X_test_cmp)),
+        }
+
+        print(f"RandomForestRegressor RMSE: {results['rmse']:.4f}")
+        print(f"RandomForestRegressor MAE: {results['mae']:.4f}")
+        print(f"RandomForestRegressor R2: {results['r2']:.4f}")
+        return results
+
+    raise ValueError("Invalid mode. Choose 'classifier'/'classification' or 'regressor'/'regression'.")
+        
 def compare_rf_models(df, feature_cols, target_col):
 
     import numpy as np
@@ -453,12 +608,49 @@ def compare_trees_cal_housing_data(metric_choice="rmse", single_tree_params=None
     # Train/test split (user can adjust test_size and random_state here if desired)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 
-    # Helper to format and print feature importances
-    def print_feature_importances(importances, names, title):
-        s = pd.Series(importances, index=names).sort_values(ascending=False)
+    # Helper to validate, format, and print feature importances
+    def print_feature_importances(importances, names, title, top_n=None, return_df=False):
+        if importances is None:
+            raise ValueError("importances cannot be None")
+        if names is None:
+            raise ValueError("names cannot be None")
+
+        names = list(names)
+        if len(importances) != len(names):
+            raise ValueError(
+                f"Length mismatch: importances has {len(importances)} values but names has {len(names)} values."
+            )
+
+        s = pd.Series(np.asarray(importances, dtype=float), index=names).sort_values(ascending=False)
+
+        if top_n is not None:
+            if not isinstance(top_n, int) or top_n <= 0:
+                raise ValueError("top_n must be a positive integer when provided")
+            s_to_show = s.head(top_n)
+        else:
+            s_to_show = s
+
+        total_importance = float(s.sum())
+        if np.isclose(total_importance, 0.0):
+            out_df = pd.DataFrame({"importance": s_to_show.round(6)})
+        else:
+            out_df = pd.DataFrame(
+                {
+                    "importance": s_to_show.round(6),
+                    "importance_pct": ((s_to_show / total_importance) * 100).round(2),
+                }
+            )
+
         print(title)
-        print(s.to_string())
+        if top_n is not None and top_n < len(s):
+            print(f"Showing top {top_n} of {len(s)} features")
+        if np.isclose(total_importance, 0.0):
+            print("Warning: all feature importances are zero.")
+        print(out_df.to_string())
         print()
+
+        if return_df:
+            return out_df
 
     # 1) Single Decision Tree
     dt = DecisionTreeRegressor(**single_tree_params)
@@ -532,7 +724,7 @@ def compare_random_forest(
     n_estimators=200,
     max_depth=10,
 ):
-    """Compare RandomForestClassifier vs RandomForestRegressor for DCD 2025 data.
+    """Compare RandomForestClassifier vs RandomForestRegressor.
 
     Parameters
     ----------

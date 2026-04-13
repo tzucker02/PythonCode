@@ -21,7 +21,7 @@ NOTE on Code: in order to download the code:
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
 - [Fill a PDF form](https://drive.google.com/file/d/1ihxn8C5BWgKzV0oZpWEz9eq4g6PEPwDa/view?usp=drive_link) - note that this is a link to google drive since the file is humongous!
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
-- [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe)
+- [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) I also have an MSI for this but the file is over 25gb.
 
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)

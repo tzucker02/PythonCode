@@ -1,49 +1,48 @@
-step#,step,seconds,,
-1,FUNCTION: Compare Random Forest trees for students,36.3877731,,
-2,Loss function graph,0.0049128,,
-3,Load dcd25 dataset,0.2632422,,
-4,Load students dataset,0.0147708,,
-5,Load SID dataset,0.0235006,,
-6,Load joined dataset,1.1977313,,
-7,Copy SID dataset,0.002943,,
-8,Initialize dataset parameters,0.0002925,,
-9,Load dataset and separate features/target,0.0210468,,
-10,Split data into train and test sets,0.0040202,,
-11,Initialize Random Forest pipeline and parameter distributions,0.0001459,,
-12,RandomizedSearchCV for Random Forest,74.6832907,,
-13,Evaluate best model on test set,0.1340731,,
-14,Train RandomForestRegressor on dcd25_renamed,45.7757437,,
-15,Plot Random Forest trees for dcd25_renamed,9.0102239,,
-16,Train and evaluate Random Forest models on dcd25_renamed,100.3241878,,
-17,Function: Compare Random Forest models on dcd25_renamed,98.9238206,,
-18,Function: Compare Random Forest models on students,0.205852,,
-19,Function: Plot Random Forest trees for students,0.2093934,,
-20,Plot pairplot for entire students dataframe,50.7262023,,
-21,Plot pairplot for selected students features,0.4331051,,
-22,"Plot pairplot for scores in students dataframe (G1, G2, G3/target)",0.6555641,,
-23,Plot pairplot for selected features in dcd25_renamed,20.0207376,,
-24,Plot pairplot for req_actual_diff vs testscore_gap,3.5797379,,
-25,Plot regression plot for req_actual_diff vs testscore_gap colored by actual spending,6.2219458,,
-26,Plot regression plot for actual_spending vs req_actual_diff colored by testscore_gap,5.9024547,,
-27,Plot regression plot for testscore_gap vs actual_spending colored by req_actual_diff,5.8350155,,
-28,FUNCTION: Regression plots for dcd25_renamed,10.0561625,,
-29,Region Mapping,0.1155839,,
-30,Correlation heatmap for SID_renamed,0.9605244,,
-31,Regression Plot for SID_renamed,0.1618212,,
-32,FUNCTION: Regression plots for sid_renamed,0.152642,,
-33,Pairplot for students selected features,1.2987264,,
-34,5-Fold Cross-Validation RMSE for DCD renamed,225.4573793,,
-35,FUNCTION: K-Fold CV on dcd25_renamed,281.9459299,,
-36,FUNCTION: 5-Fold CV on stp_new,1.0463568,,
-37,FUNCTION: 5-Fold CV on sid_renamed with sal parity features,3.8257658,,
-38,FUNCTION: 5-Fold CV on sid_renamed with sal ratio features,1.9342431,,
-39,joined 5-Fold Cross-Validation RMSE using function,260.1193859,,
-40,5-Fold Cross-Validation RMSE for DCD using function,324.3635128,,
-41,PCA and scatter plot for dcd25_renamed,2.6432346,,
-42,PCA and scatter plot for students,0.1391988,,
-43,PCA and scatter plot for joined,2.8577448,,
-44,PCA and scatter plot for sid_renamed,0.137207,,
-45,SID modeling cell,2.0833686,,
-46,Storytelling with Data Bar Chart Creation,0.253011,,
-,,,,
-,,1580.113526,,26.33522544
+step#,step,seconds,minutes
+1,FUNCTION: Compare Random Forest trees for students,57.5186552,0.958644253
+2,Loss function graph,0.00716,0.000119333
+3,Load datasets and numerics,2.0061943,0.033436572
+4,Copy SID dataset,0.0041004,6.83E-05
+5,Initialize dataset parameters,0.0005471,9.12E-06
+6,Load dataset and separate features/target,0.0372227,0.000620378
+7,Split data into train and test sets,0.005464,9.11E-05
+8,Initialize Random Forest pipeline and parameter distributions,0.0003451,5.75E-06
+9,RandomizedSearchCV for Random Forest,73.564479,1.22607465
+10,Evaluate best model on test set,0.2181425,0.003635708
+11,Train RandomForestRegressor on dcd25_renamed,73.3169108,1.221948513
+12,Plot Random Forest trees for dcd25_renamed,15.9783595,0.266305992
+13,Train and evaluate Random Forest models on dcd25_renamed,158.87652,2.647942
+14,Function: Compare Random Forest models on dcd25_renamed,156.9134513,2.615224188
+15,Function: Compare Random Forest models on students,0.3885678,0.00647613
+16,Function: Compare Random Forest models on sid,0.3352339,0.005587232
+17,Plot pairplot for entire students dataframe,93.6726056,1.561210093
+18,Plot pairplot for selected students features,0.7757929,0.012929882
+19,"Plot pairplot for scores in students dataframe (G1, G2, G3/target)",1.2095174,0.020158623
+20,Plot pairplot for selected features in dcd25_renamed,36.496946,0.608282433
+21,Plot pairplot for req_actual_diff vs testscore_gap,6.5769673,0.109616122
+22,Plot regression plot for req_actual_diff vs testscore_gap colored by actual spending,11.0986424,0.184977373
+23,Plot regression plot for actual_spending vs req_actual_diff colored by testscore_gap,11.6875823,0.194793038
+24,Plot regression plot for testscore_gap vs actual_spending colored by req_actual_diff,11.589558,0.1931593
+25,FUNCTION: Regression plots for dcd25_renamed,17.9555582,0.299259303
+26,Region Mapping,0.1961775,0.003269625
+27,Correlation heatmap for SID_renamed,1.8569104,0.030948507
+28,Regression Plot for SID_renamed,0.2991867,0.004986445
+29,FUNCTION: Regression plots for sid_renamed,0.3446499,0.005744165
+30,Pairplot for students selected features,2.7028432,0.045047387
+31,5-Fold Cross-Validation RMSE for DCD renamed,356.8842348,5.94807058
+32,FUNCTION: K-Fold CV on dcd25_renamed,353.1889478,5.886482463
+33,FUNCTION: 5-Fold CV on stp_new,1.1033628,0.01838938
+34,FUNCTION: 5-Fold CV on sid_renamed with sal parity features,4.1376456,0.06896076
+35,FUNCTION: 5-Fold CV on sid_renamed with sal ratio features,1.8962758,0.031604597
+36,joined 5-Fold Cross-Validation RMSE using function,267.9777362,4.466295603
+37,5-Fold Cross-Validation RMSE for DCD using function,237.5611221,3.959352035
+38,PCA evaluation and plotting,3.3349057,0.055581762
+39,PCA and scatter plot for dcd25_renamed,2.431122,0.0405187
+40,PCA and scatter plot for students,0.109961,0.001832683
+41,PCA and scatter plot for joined,2.5718832,0.04286472
+42,PCA and scatter plot for sid_renamed,0.143823,0.00239705
+43,SID modeling cell,2.0376254,0.033960423
+44,Storytelling with Data Bar Chart Creation,0.2499778,0.004166297
+45,Save cleaned datasets to CSV,10.8908313,0.181513855
+,,,
+,,1980.153746,33.00256243

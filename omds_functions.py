@@ -7,6 +7,60 @@ import seaborn as sns
 from scipy import stats
 import importlib
 
+def pca_evaluate_dataset(df, dataset_name, target_col=None, variance_threshold=0.80):
+    numeric_df = df.select_dtypes(include=[np.number]).copy()
+
+    # Keep target only for bubble sizing; exclude from PCA features to avoid leakage.
+    bubble_label = target_col if target_col in df.columns else "bubble_size"
+
+    if target_col is not None and target_col in numeric_df.columns:
+        feature_df = numeric_df.drop(columns=[target_col])
+    else:
+        feature_df = numeric_df
+
+    if target_col is not None and target_col in df.columns:
+        aligned = pd.concat([feature_df, df[target_col]], axis=1).dropna()
+        X = aligned[feature_df.columns]
+        bubble_series = aligned[target_col]
+    else:
+        X = feature_df.dropna()
+        bubble_series = pd.Series(np.ones(len(X)), index=X.index, name="bubble_size")
+
+    if X.shape[0] == 0 or X.shape[1] < 2:
+        print(f"{dataset_name}: not enough numeric predictor columns for PCA")
+        return None
+
+    scaled_values = StandardScaler().fit_transform(X)
+
+    pca = decomposition.PCA()
+    pca.fit(scaled_values)
+
+    explained = pca.explained_variance_ratio_
+    cumulative = np.cumsum(explained)
+    pcs_needed = int(np.argmax(cumulative >= variance_threshold) + 1) if np.any(cumulative >= variance_threshold) else len(explained)
+
+    pca_scores = pca.transform(scaled_values)
+    plot_df = pd.DataFrame(
+        {
+            "PC1": pca_scores[:, 0],
+            "PC2": pca_scores[:, 1],
+            bubble_label: bubble_series.to_numpy(),
+        }
+    )
+
+    summary = {
+        "dataset": dataset_name,
+        "rows": X.shape[0],
+        "numeric_features": X.shape[1],
+        "pc1_variance_pct": explained[0] * 100,
+        "pc2_variance_pct": explained[1] * 100 if len(explained) > 1 else np.nan,
+        "pc1_pc2_cumulative_pct": cumulative[1] * 100 if len(cumulative) > 1 else explained[0] * 100,
+        "pcs_for_80pct_variance": pcs_needed,
+        "bubble_field": bubble_label,
+    }
+
+    return summary, plot_df
+
 def RF_regressor(df, dfname, feature_cols, target_col):
     
     from sklearn.model_selection import train_test_split
@@ -187,6 +241,86 @@ def compare_rf_models(df, feature_cols, target_col):
     print(f"RandomForestClassifier RMSE: {rmse_clf:.4f}")
     print(f"RandomForestRegressor RMSE: {rmse_reg:.4f}")
     print("Lower RMSE:", "Classifier" if rmse_clf < rmse_reg else "Regressor")
+
+
+def compare_rf_models_sid(
+    df,
+    feature_cols,
+    target_col,
+    *,
+    classification_threshold=None,
+    test_size=0.2,
+    random_state=42,
+    n_estimators=200,
+    max_depth=10,
+):
+    """Compare RF classifier and regressor on SID with separate targets.
+
+    The classifier is trained on a binary label derived from the target using
+    ``classification_threshold``. If no threshold is provided, the median of the
+    target is used. The regressor is trained on the raw continuous target.
+    """
+
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+    from sklearn.metrics import accuracy_score, f1_score, root_mean_squared_error
+    from sklearn.model_selection import train_test_split
+
+    model_df = df[feature_cols + [target_col]].dropna()
+    X = model_df[feature_cols]
+    y_reg = model_df[target_col]
+
+    if classification_threshold is None:
+        classification_threshold = float(y_reg.median())
+
+    y_cls = (y_reg > classification_threshold).astype(int)
+    if y_cls.nunique() < 2:
+        raise ValueError(
+            "Classification target collapsed to one class after thresholding. "
+            "Choose a different classification_threshold."
+        )
+
+    X_train, X_test, y_reg_train, y_reg_test, y_cls_train, y_cls_test = train_test_split(
+        X,
+        y_reg,
+        y_cls,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=y_cls,
+    )
+
+    rf_clf = RandomForestClassifier(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        random_state=random_state,
+    )
+    rf_clf.fit(X_train, y_cls_train)
+    y_pred_cls = rf_clf.predict(X_test)
+
+    rf_reg = RandomForestRegressor(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        random_state=random_state,
+    )
+    rf_reg.fit(X_train, y_reg_train)
+    y_pred_reg = rf_reg.predict(X_test)
+
+    clf_accuracy = accuracy_score(y_cls_test, y_pred_cls)
+    clf_f1 = f1_score(y_cls_test, y_pred_cls, zero_division=0)
+    reg_rmse = root_mean_squared_error(y_reg_test, y_pred_reg)
+
+    print(f"Classification threshold: {classification_threshold:.4f}")
+    print(f"RandomForestClassifier Accuracy: {clf_accuracy:.4f}")
+    print(f"RandomForestClassifier F1: {clf_f1:.4f}")
+    print(f"RandomForestRegressor RMSE: {reg_rmse:.4f}")
+
+    return {
+        "classification_threshold": float(classification_threshold),
+        "classifier_accuracy": float(clf_accuracy),
+        "classifier_f1": float(clf_f1),
+        "regressor_rmse": float(reg_rmse),
+        "n_train": int(len(X_train)),
+        "n_test": int(len(X_test)),
+    }
 
 def run_rf_5fold(
     data,

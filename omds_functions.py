@@ -8,6 +8,76 @@ from scipy import stats
 import importlib
 
 def pca_evaluate_dataset(df, dataset_name, target_col=None, variance_threshold=0.80):
+    """
+   I used the following code to invoke this function and return both a summary and plots
+   (my datasets are below, but you can replace with your own. Note that each entry must be comprised 
+   of a dataframe, a name, and a target column):
+   
+    datasets_to_evaluate = [
+    ("students", students, "target"),
+    ("dcd25_renamed", dcd25_renamed, "testscore_gap"),
+    ("sid", sid, "sal_parity55"),
+    ("joined", joined, None),
+]
+
+summaries = []
+plot_results = {}
+
+for dataset_name, dataset_df, target_col in datasets_to_evaluate:
+    result = pca_evaluate_dataset(dataset_df, dataset_name, target_col=target_col)
+    if result is None:
+        continue
+
+    summary, plot_df = result
+    summaries.append(summary)
+    plot_results[dataset_name] = {"plot_df": plot_df, "bubble_field": summary["bubble_field"]}
+
+    print(f"{dataset_name}: PC1={summary['pc1_variance_pct']:.2f}%, PC2={summary['pc2_variance_pct']:.2f}%")
+    print(f"  PC1+PC2={summary['pc1_pc2_cumulative_pct']:.2f}%, components for 80% variance={summary['pcs_for_80pct_variance']}")
+
+if summaries:
+    pca_summary_df = pd.DataFrame(summaries).sort_values("dataset")
+    print("\nPCA evaluation summary:")
+    print(pca_summary_df.to_string(index=False))
+else:
+    print("No numeric datasets were available for PCA evaluation.")
+
+if plot_results:
+    n = len(plot_results)
+    cols = 2
+    rows = int(np.ceil(n / cols))
+    fig, axes = plt.subplots(rows, cols, figsize=(12, 5 * rows), constrained_layout=True)
+    axes = np.array(axes).reshape(-1)
+
+    for ax, (dataset_name, result) in zip(axes, plot_results.items()):
+        plot_df = result["plot_df"]
+        bubble_field = result["bubble_field"]
+
+        sns.scatterplot(
+            data=plot_df,
+            x="PC1",
+            y="PC2",
+            size=bubble_field,
+            sizes=(20, 400),
+            alpha=0.6,
+            color="teal",
+            legend=False,
+            ax=ax,
+        )
+        ax.axhline(0, color="gray", linewidth=0.8, alpha=0.5)
+        ax.axvline(0, color="gray", linewidth=0.8, alpha=0.5)
+        ax.set_title(f"{dataset_name}: PC1 vs PC2 bubble plot")
+
+    for ax in axes[n:]:
+        ax.axis("off")
+
+    plt.show()
+
+
+    """
+    from sklearn.preprocessing import StandardScaler
+    from sklearn import decomposition
+    
     numeric_df = df.select_dtypes(include=[np.number]).copy()
 
     # Keep target only for bubble sizing; exclude from PCA features to avoid leakage.

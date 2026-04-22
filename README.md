@@ -22,7 +22,7 @@ NOTE on Code: in order to download the code:
 - [Fill a PDF form](https://drive.google.com/file/d/1ihxn8C5BWgKzV0oZpWEz9eq4g6PEPwDa/view?usp=drive_link) - note that this is a link to google drive since the file is humongous!
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) I also have an [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link) for this but the file is over 25gb so this is a link.
-- [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/file/d/1W_oVeWHJfOJdWOOB8aApqjFxEFm8e1Tf/view?usp=sharing) NOTE: this file includes downloads for all other free standing executables, like the file watcher or form filler. Be patient during download. After clicking the download anyway button, it seems to take some time. For a file that includes all files in the download, use [this link](https://drive.google.com/uc?export=download&id=1uNVAB8px5eEPDTI9j7PkQPr0eClvDcZx).
+- [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1uNVAB8px5eEPDTI9j7PkQPr0eClvDcZx).
 
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)

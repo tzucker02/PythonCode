@@ -37,7 +37,7 @@ NOTE on Code: in order to download the code:
 - [Python version of train, fit, and evaluate function, as above but you can just use the import command and the name of the file](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.py)
 - [Fill a PDF form](https://github.com/tzucker02/PythonCode/blob/main/fill_form.py)
 - [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.py) - a script to watch any changes to a given directory
-- [Functions used in my OMDS homeworks](https://github.com/tzucker02/PythonCode/blob/main/omds_functions.py)
+- [Functions used in my OMDS homeworks](https://github.com/tzucker02/OMDS-Homeworks/blob/main/omds.py)
 - [Basic code to time your jupyter notebooks](https://github.com/tzucker02/PythonCode/blob/main/timer.py)
 - [Regression plot function](https://github.com/tzucker02/PythonCode/blob/main/regplotter%20function.py)
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)

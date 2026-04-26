@@ -23,8 +23,8 @@ NOTE on Code: in order to download the code:
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) I also have an [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link) for this but the file is over 25gb so this is a link.
 - [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1M8mXKmG7LZsmUQvVGyQHh031ZqGDCJ-O).
-- [Separate Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=16AtQU7bO__OnmG0IJNFxMTDN1HKU5VtF)
-- [Map of REstaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
+- [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=16AtQU7bO__OnmG0IJNFxMTDN1HKU5VtF)
+- [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
 
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)

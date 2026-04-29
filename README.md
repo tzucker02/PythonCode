@@ -22,7 +22,7 @@ NOTE on Code: in order to download the code:
 - [Fill a PDF form](https://drive.google.com/uc?export=download&id=14i338aVfPK89_1GoCV-cMlK8h-d5Sw9I) - note that this is a link to google drive since the file is humongous!
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) I also have an [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link) for this but the file is over 25gb so this is a link.
-- [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1M8mXKmG7LZsmUQvVGyQHh031ZqGDCJ-O).
+- [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1mICFrV1up8Q8BNMTM9w9zzJS5OMsO0kP).
 - [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1ZKWi--gUNnwNY8fbYWXewjYQQxmVjZ6Z)
 #### Android
 - [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)

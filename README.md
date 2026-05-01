@@ -15,9 +15,8 @@ NOTE on Code: in order to download scripts:
     <li>If you let your mouse hover over the down arrow icon, it should say "download raw file"</li>
     <li>Once you have clicked the download button, the file should be automatically downloaded onto your computer - check your downloads folder</li>
     <li><b>ALTERNATELY</b>, skip steps 2 - 5 and right-click on the file, choose "Save link as", find the file in your downloads folder</li>
-  </ol>
-  <ol>
-    <li>MSI files are, for the most part links to Google Drive. These need to be clicked in order to generate the link page for you.</li>
+    &nbsp;
+    <li><B><i>IMPORTANT:</i> MSI files are, for the most part links to Google Drive. These need to be clicked in order to generate the link page for you.</B></li>
   </ol>
 
 ### Executable Files

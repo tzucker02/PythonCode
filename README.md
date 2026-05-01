@@ -7,7 +7,7 @@ After some rather intensive courses, one of which was all about coding in Python
 The following code was tested on a Jupyter notebook (both Anaconda and VS Code versions), and this cleansed version of the [Titanic dataset](https://github.com/EpistasisLab/pmlb/raw/refs/heads/master/datasets/titanic/titanic.tsv.gz) which needs to be uncompressed. 
 
 Now for the code ...<br>
-NOTE on Code: in order to download the code:
+NOTE on Code: in order to download scripts:
   <ol>
     <li>Navigate to this page and the code links on it</li>
     <li>Left click on the link you wish to download</li>
@@ -15,6 +15,9 @@ NOTE on Code: in order to download the code:
     <li>If you let your mouse hover over the down arrow icon, it should say "download raw file"</li>
     <li>Once you have clicked the download button, the file should be automatically downloaded onto your computer - check your downloads folder</li>
     <li><b>ALTERNATELY</b>, skip steps 2 - 5 and right-click on the file, choose "Save link as", find the file in your downloads folder</li>
+  </ol>
+  <ol>
+    <li>MSI files are, for the most part links to Google Drive. These need to be clicked in order to generate the link page for you.</li>
   </ol>
 
 ### Executable Files

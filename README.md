@@ -20,7 +20,7 @@ NOTE on Code: in order to download scripts:
   </ol>
 
 ### Executable Files
-#### (MSI files were built using [Beeware Briefcase](https://briefcase.beeware.org/en/stable/))
+#### (MSI files were built using <A href="https://briefcase.beeware.org/en/stable/>Beeware Briefcase</a>)
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
 - [Fill a PDF form - v2 MSI](https://github.com/tzucker02/PythonCode/raw/main/PDF%20Filler-2.0.0.msi).
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory

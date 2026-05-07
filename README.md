@@ -27,6 +27,7 @@ NOTE on Code: in order to download scripts:
 - [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1LxLrWFv8JoTOEm8gHCmCi9t7iAOHpNuy).
 - [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1ZKWi--gUNnwNY8fbYWXewjYQQxmVjZ6Z)
 - [Clean Directory MSI](https://github.com/tzucker02/PythonCode/raw/main/Clean%20Directories-1.0.2.msi)
+- [Convert an image to a windows icon - MSI](https://github.com/tzucker02/PythonCode/raw/main/Image%20to%20ICO-1.1.0.msi)
 ### Android
 - [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
 

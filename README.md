@@ -25,7 +25,7 @@ NOTE on Code: in order to download scripts:
 - [Fill a PDF form - v2 MSI](https://github.com/tzucker02/PythonCode/raw/main/PDF%20Filler-2.0.0.msi).
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) link to [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link)
-- [Python Functions Windows installer (MSI) - link to google drive file](https://drive.google.com/uc?export=download&id=1k45etdoFhzAuujsPtTS4hw45QWqMWzN2).
+- [Python Functions Windows installer (MSI) - link to new google drive file that include python source code](https://drive.google.com/uc?export=download&id=1k45etdoFhzAuujsPtTS4hw45QWqMWzN2).
 - [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1ZKWi--gUNnwNY8fbYWXewjYQQxmVjZ6Z)
 - [Clean Directory MSI](https://github.com/tzucker02/PythonCode/raw/main/Clean%20Directories-1.0.2.msi)
 - [Convert an image to a windows icon - MSI](https://github.com/tzucker02/PythonCode/raw/main/Image%20to%20ICO-1.1.0.msi)

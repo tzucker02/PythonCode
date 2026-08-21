@@ -19,6 +19,8 @@ NOTE on Code: in order to download scripts:
     <li><B><i>IMPORTANT:</i> MSI files are, for the most part links to Google Drive. These need to be clicked in order to generate the link page for you.</B></li>
   </ol>
 
+<b>Recently I discovered that some browsers will block downloads, thinking the site is downloading multiple files. To let this page download files anyway, there most likely be an icon with a down arrow and a line through it next to the URL of this page. Click on that icon and choose to allow downloads (if you wish to do so).</b>
+
 ### Executable Files
 #### (MSI files were built using <a href="https://briefcase.beeware.org/en/stable/" target="_blank">Beeware Briefcase</a>) - to open this link in a new tab use CTRL+Click or Command+Click on a MAC.
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!

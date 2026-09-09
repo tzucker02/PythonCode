@@ -69,6 +69,8 @@ These files are for downloading your New York Times Cooking recipe Box. You must
 ### <B>New York Times Cooking Recipe Box Download Files:</B>
 - [New York Times bulk python downloader using categories](https://github.com/tzucker02/PythonCode/blob/main/nyt_recipe_to_pdf_category.py)
 - [New York Times bulk text file](https://github.com/tzucker02/PythonCode/blob/main/my_recipes_blank.txt)
+- [NYT Cooking Recipe Box link downloader and PDF creator](https://drive.google.com/uc?export=download&id=19cXFdXrk3fuC334jLuqvvX_Zg9Rgr0tx)
+
 
 <!--
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)

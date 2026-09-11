@@ -75,6 +75,8 @@ These files are for downloading your New York Times Cooking recipe Box. You must
 - [NYT Cooking Recipe Box link downloader and PDF creator - just needs your login info](https://drive.google.com/uc?export=download&id=19cXFdXrk3fuC334jLuqvvX_Zg9Rgr0tx)
 - [Above with chromium download option](https://drive.google.com/uc?export=download&id=1FeD3lsaJQsyQ8uTu-cR3FS4wAHbr21Cp)
 -->
+### <B>Website Link Downloader:</b>
+- [Generic website Link Downloader](https://drive.google.com/uc?export=download&id=1Zk2lrWH8rYJAoOLrWev6k92BPVSOSMV4)
 <!--
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)
 -->

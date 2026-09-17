@@ -60,7 +60,7 @@ NOTE on Code: in order to download scripts:
 - [Read file like above, but use an internal function call](https://github.com/tzucker02/PythonCode/blob/main/CMP_wcall.py)
 - [Plot the survival rate for passengers on the titanic](https://github.com/tzucker02/PythonCode/blob/main/plotsurvival.py)
 - [Vendor Manager repository](https://github.com/tzucker02/Vendor-Manager)
-- [File of all functions I used for several OMDS courses](https://github.com/tzucker02/PythonCode/blob/main/omds.py) - this file can be imported by using the file [usage](https://github.com/tzucker02/PythonCode/blob/main/NOTE.md)
+- [File of all functions I used for several OMDS courses](https://github.com/tzucker02/PythonCode/blob/main/omds.py) - this file can be imported by following the instructions in this file [usage](https://github.com/tzucker02/PythonCode/blob/main/NOTE.md)
     
 ### Compressed files
 - [Vendor Manager](https://github.com/tzucker02/PythonCode/raw/main/Vendor%20Manager.zip)

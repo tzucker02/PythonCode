@@ -9,6 +9,19 @@ import importlib
 from matplotlib import patches
 from func_to_web import run
 
+def onehot(df: pd.DataFrame, columns: list) -> pd.DataFrame:
+    """
+    Perform one-hot encoding on specified categorical columns.
+
+    Parameters:
+        df      : Input DataFrame
+        columns : List of categorical columns to one-hot encode
+
+    Returns:
+        DataFrame with one-hot encoded columns
+    """
+    return pd.get_dummies(df, columns=columns, drop_first=True)
+
 def log_model_metrics(
     model_name: str,
     metrics: dict,
@@ -99,6 +112,21 @@ def clean_dataset(
     """
     Clean common data type issues in a DataFrame.
 
+    1. Converts specified currency columns to float.
+    2. Parses specified date columns to datetime.
+    3. Fills numeric nulls with column median.
+    4. Fills categorical nulls with 'Unknown'.
+    Example usage:
+        clean_df = clean_dataset(df, currency_cols=['price'], date_cols=['date'])
+    Returns:
+        Cleaned DataFrame with currency columns converted to float, date columns parsed as datetime,
+        numeric nulls filled with median, and categorical nulls filled with 'Unknown'.
+    **************************************************************************
+    ***** IMPORTANT: This function does not differentiate                *****
+    ***** numeric categorical columns from numeric columns.              *****
+    ***** You MUST do this before running this function on your dataset. *****
+    **************************************************************************
+    This function performs the following cleaning steps:
     Parameters:
         df            : Input DataFrame
         currency_cols : Columns containing currency strings e.g. "$1,200.00"
@@ -187,12 +215,12 @@ def mutual_info(df, target):
 
     return mi_scores
 
-def annotated_heatmap(df,  dfname, column_to_start, column_to_end, threshold):
+def annotated_heatmap(df,  dfname, column_to_start, column_to_end, threshold, figsize):
     df=df.select_dtypes(include=['number'])
 
     df_columns = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
     df_partial = df[df_columns].iloc[:, column_to_start:column_to_end]
-    plt.figure(figsize=(20, 12))
+    plt.figure(figsize=figsize)
     corr = df_partial.corr()
     
     ax = sns.heatmap(corr, cmap="coolwarm", vmin=-1, vmax=1, annot=True)
@@ -205,44 +233,94 @@ def annotated_heatmap(df,  dfname, column_to_start, column_to_end, threshold):
     plt.savefig(f"ahm_{dfname}_heatmap.png", dpi=300, bbox_inches='tight')
     plt.show()
 
-def heatmap(heatmap_type):
+def heatmap(heatmap_type, df):
+    import pandas as pd
+    import tkinter as tk
+    from tkinter import simpledialog
+    from tkinter import messagebox
+    import os
+
+    if isinstance(df, str):
+        if not os.path.isfile(df):
+            raise FileNotFoundError(f"No file found at path: {df!r}")
+        ext = os.path.splitext(df)[1].lower()
+        if ext == ".csv":
+            df = pd.read_csv(df)
+        elif ext in (".xls", ".xlsx", ".xlsm", ".xlsb"):
+            df = pd.read_excel(df)
+        elif ext == ".parquet":
+            df = pd.read_parquet(df)
+        elif ext == ".json":
+            df = pd.read_json(df)
+        else:
+            raise ValueError(f"Unsupported file extension {ext!r}. Supported: .csv, .xlsx, .parquet, .json")
+    elif not isinstance(df, pd.DataFrame):
+        raise TypeError(
+            f"'df' must be a pandas DataFrame or a file path string, but got {type(df).__name__!r}.\n"
+            "  Correct:   heatmap('annotated', my_df)\n"
+            "  Correct:   heatmap('annotated', 'data/my_file.csv')\n"
+            "  Incorrect: heatmap('annotated', 'my_df')"
+        )
     if heatmap_type == "annotated":
-        def annotated_heatmap(df,  dfname, column_to_start, column_to_end, threshold):
-            df=df.select_dtypes(include=['number'])
+        root = tk.Tk()
+        root.withdraw()  # Hide the main window
+        dfname = simpledialog.askstring("Input", "Enter a name for the dataset:")
+        numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+        messagebox.showinfo("Info", f"Available numeric columns (0–{len(numeric_cols) - 1}): {numeric_cols}")
+        column_to_start = simpledialog.askinteger("Input", "Enter the starting column index (digit starting with 0): ")
+        column_to_end = simpledialog.askinteger("Input", "Enter the ending column index: ")
+        threshold = simpledialog.askfloat("Input", "Enter the correlation threshold (e.g. 0.7 for 70%): ")
 
-            df_columns = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
-            df_partial = df[df_columns].iloc[:, column_to_start:column_to_end]
-            plt.figure(figsize=(20, 12))
-            corr = df_partial.corr()
-            
-            ax = sns.heatmap(corr, cmap="coolwarm", vmin=-1, vmax=1, annot=True)
-            ax.set_title(f"Correlation Heatmap for {dfname} Dataset (Columns {column_to_start} to {column_to_end}) with a threshold set at {threshold:.0%} or above highlighted")
+        df_numeric = df.select_dtypes(include=['number'])
+        df_columns = df_numeric.select_dtypes(include=['int64', 'float64']).columns.tolist()
+        df_partial = df_numeric[df_columns].iloc[:, column_to_start:column_to_end]
+        plt.figure(figsize=(20, 12))
+        corr = df_partial.corr()
 
-            for i in range(corr.shape[0]):
-                for j in range(corr.shape[1]):
-                    if i != j and abs(corr.iloc[i, j]) >= threshold:
-                        ax.add_patch(patches.Rectangle((j, i), 1, 1, fill=False, edgecolor="lime", lw=3))
+        ax = sns.heatmap(corr, cmap="coolwarm", vmin=-1, vmax=1, annot=True)
+        ax.set_title(f"Correlation Heatmap for {dfname} Dataset (Columns {column_to_start} to {column_to_end}) with a threshold set at {threshold:.0%} or above highlighted")
 
-            plt.show()
+        for i in range(corr.shape[0]):
+            for j in range(corr.shape[1]):
+                if i != j and abs(corr.iloc[i, j]) >= threshold:
+                    ax.add_patch(patches.Rectangle((j, i), 1, 1, fill=False, edgecolor="lime", lw=3))
+
+        # plt.switch_backend('TkAgg')
+        plt.show()
+
     elif heatmap_type == "selected columns":
-        def selected_col_heatmap(df, dfname, cols_2_include):
-            # change dataframe to only include numeric columns for correlation heatmap
-            df = df[cols_2_include].select_dtypes(include=['number'])
-            df_partial = df[cols_2_include]
-            # change figure size
-            fig, ax = plt.subplots(figsize=(12, 10))
-            # create the heatmap
-            ax = sns.heatmap(df_partial.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5, ax=ax)
-            # create the title
-            ax.set_title(f'Correlation Heatmap for {dfname} Dataset (Selected Columns)', fontsize=16)
-            # save the figure
-            plt.savefig(f'{dfname}_correlation_heatmap.png', dpi=300, bbox_inches='tight')
-            plt.show()
+        dfname = input("Enter a name for the dataset: ")
+        print(f"Available columns: {df.columns.tolist()}")
+        cols_input = input("Enter the column names to include, separated by commas: ")
+        cols_2_include = [c.strip() for c in cols_input.split(",")]
+
+        df_partial = df[cols_2_include].select_dtypes(include=['number'])
+        fig, ax = plt.subplots(figsize=(12, 10))
+        ax = sns.heatmap(df_partial.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5, ax=ax)
+        ax.set_title(f'Correlation Heatmap for {dfname} Dataset (Selected Columns)', fontsize=16)
+        plt.savefig(f'{dfname}_correlation_heatmap.png', dpi=300, bbox_inches='tight')
+        # plt.switch_backend('TkAgg')
+        plt.show()
+
     else:
         raise ValueError(f"Invalid heatmap type: {heatmap_type}. Choose 'annotated' or 'selected columns'.")
-    heatmap(heatmap_type)
-    print(f"Heatmap function set to '{heatmap_type}' mode. Use the returned function to generate the desired heatmap.")
+    
 def selected_col_heatmap(df, dfname, cols_2_include):
+    """Generate a correlation heatmap for selected columns of a dataframe.
+
+    This function generates a correlation heatmap for the selected columns (the ones you designate)of a dataframe.
+    
+    Args:
+        df (pd.DataFrame): The input dataframe.
+        dfname (str): The name of the dataframe, used for the plot title and saved file name.
+        cols_2_include (list): List of column names to include in the heatmap.
+    """
+
+    # Args:
+    #     df (_type_): _description_
+    #     dfname (_type_): _description_
+    #     cols_2_include (_type_): _description_
+    
     # change dataframe to only include numeric columns for correlation heatmap
     df = df[cols_2_include].select_dtypes(include=['number'])
     df_partial = df[cols_2_include]
@@ -822,6 +900,16 @@ def show_missing_columns(df, lower_bound, upper_bound):
     return filtered_missing, count
 
 def find_missing(df):
+    """
+    Finds Missing Values in the DataFrame.
+
+    Arguments:
+        df: The input DataFrame to check for missing values.
+
+    Returns:
+        pd.DataFrame: A summary DataFrame containing columns, missing counts, and missing percentages.
+        
+    """
     missing_summary = pd.DataFrame({
     'Column': df.columns,
     'Missing_Count': df.isnull().sum().values,
@@ -848,7 +936,7 @@ def find_outliers(dataframe):
 def calculate_r2_for_datasets(datasets, target_map, test_size=0.2, random_state=42):
     """Calculate test-set R2 for each dataset in a dict.
 
-    Args:
+    Arguments:
         datasets: dict[str, pd.DataFrame]
         target_map: dict[str, str] mapping dataset name to target column
         test_size: fraction of rows for the test split

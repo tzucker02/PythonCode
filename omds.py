@@ -9,6 +9,179 @@ import importlib
 from matplotlib import patches
 from func_to_web import run
 
+# Machine learning
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score
+)
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import (
+    OneHotEncoder,
+    PolynomialFeatures,
+    StandardScaler
+)
+
+# ------------------------------------------------------------
+# Generic Function to Create Training, Validation, and Test Sets
+# ------------------------------------------------------------
+
+def create_train_validation_test_split(
+    data,
+    target_column,
+    drop_columns=None,
+    test_size=0.10,
+    validation_size=1 / 9,
+    random_state=42
+):
+    """Split a DataFrame into predictors/target, then into
+    training, validation, test, and development sets.
+
+    The test set is reserved first, then the validation set is
+    carved out of the remaining development observations.
+    """
+
+    drop_columns = drop_columns or []
+
+    X_all = data.drop(columns=[target_column] + drop_columns)
+    y_all = data[target_column]
+
+    # First reserve `test_size` of the observations for final testing
+    X_development, X_test, y_development, y_test = train_test_split(
+        X_all,
+        y_all,
+        test_size=test_size,
+        random_state=random_state
+    )
+
+    # Reserve `validation_size` of the development set for validation
+    X_train, X_validation, y_train, y_validation = train_test_split(
+        X_development,
+        y_development,
+        test_size=validation_size,
+        random_state=random_state
+    )
+
+    return (
+        X_train, X_validation, X_test, X_development,
+        y_train, y_validation, y_test, y_development
+    )
+
+
+# ------------------------------------------------------------
+# Function to Construct a Pipeline for a Specified Degree
+# ------------------------------------------------------------
+
+def create_polynomial_model(degree):
+    """Create the preprocessing and regression pipeline."""
+
+    # Impute selected numerical predictors, create polynomial
+    # terms, and scale them to improve numerical conditioning
+    polynomial_transformer = make_pipeline(
+        SimpleImputer(strategy="median"),
+
+        PolynomialFeatures(
+            degree=degree,
+            include_bias=False
+        ),
+
+        StandardScaler()
+    )
+
+    # Impute and scale numerical predictors that are not expanded
+    numerical_transformer = make_pipeline(
+        SimpleImputer(strategy="median"),
+    
+        StandardScaler()
+    )
+
+    # Impute and one-hot encode categorical predictors
+    categorical_transformer = make_pipeline(
+        SimpleImputer(strategy="most_frequent"),
+
+        OneHotEncoder(
+            handle_unknown="ignore",
+            sparse_output=False
+        )
+    )
+
+    # Apply the appropriate transformations to each
+    # group of predictors
+    preprocessor = ColumnTransformer(
+        [
+            (
+                "polynomial",
+                polynomial_transformer,
+                polynomial_features
+            ),
+            (
+                "numerical",
+                numerical_transformer,
+                remaining_numerical_features
+            ),
+            (
+                "categorical",
+                categorical_transformer,
+                categorical_features
+            )
+        ]
+    )
+
+    # Combine preprocessing and regression
+    # into one pipeline
+    polynomial_pipeline = make_pipeline(
+        preprocessor,
+        LinearRegression()
+    )
+
+    return polynomial_pipeline
+
+def create_train_validation_test_split(
+    data,
+    target_column,
+    drop_columns=None,
+    test_size=0.10,
+    validation_size=1 / 9,
+    random_state=42
+):
+    """Split a DataFrame into predictors/target, then into
+    training, validation, test, and development sets.
+
+    The test set is reserved first, then the validation set is
+    carved out of the remaining development observations.
+    """
+
+    drop_columns = drop_columns or []
+
+    X_all = data.drop(columns=[target_column] + drop_columns)
+    y_all = data[target_column]
+
+    # First reserve `test_size` of the observations for final testing
+    X_development, X_test, y_development, y_test = train_test_split(
+        X_all,
+        y_all,
+        test_size=test_size,
+        random_state=random_state
+    )
+
+    # Reserve `validation_size` of the development set for validation
+    X_train, X_validation, y_train, y_validation = train_test_split(
+        X_development,
+        y_development,
+        test_size=validation_size,
+        random_state=random_state
+    )
+
+    return (
+        X_train, X_validation, X_test, X_development,
+        y_train, y_validation, y_test, y_development
+    )
+
+
 def onehot(df: pd.DataFrame, columns: list) -> pd.DataFrame:
     """
     Perform one-hot encoding on specified categorical columns.

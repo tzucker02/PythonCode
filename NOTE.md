@@ -10,7 +10,7 @@
    
    for instance,
    
-   `omds.find_ouliers(dataset)`
+   `omds.find_outliers(dataset)`
    
    
    

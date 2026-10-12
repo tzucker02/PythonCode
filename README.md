@@ -1,6 +1,6 @@
 ### [I'm here by mistake! Take me to the profile page.](https://github.com/tzucker02)
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/tzucker02)
-(If you ennd up enjoying the MSIs and/or code on this page, feel free to click the sponsor button to help me to continue to create such code. If you have suggestions and/or requests, also let me know - whether you decide to sponsor me or not.)
+<p>(If you end up enjoying the MSIs and/or code on this page, feel free to click the sponsor button above to help me to continue to create such code. If you have suggestions and/or requests, also let me know - whether you decide to sponsor me or not.)</p>
 
 # Python Code Snippets
 After some rather intensive courses, one of which was all about coding in Python - using Jupyter notebooks, I kind of got hooked.  I continued doing some Python coding because it was, well. fun! If that makes me a geek, so be it.  In the end, I wrote several little Python functions that did a lot of what my professor had been asking us to do during the semester, but did it in a much easier way (at least for anyone else who is using the functions). I have uploaded a couple of them here. If you find them at all useful, feel free to credit me. On the other hand, if you find they need reworking, I am also happy to hear about it. Contact me if you have suggestions or problems or want to talk about Pythonic issues!

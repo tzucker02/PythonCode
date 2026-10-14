@@ -23,6 +23,9 @@ NOTE on Code: in order to download scripts:
 
 <b>Recently I discovered that some browsers will block downloads, thinking the site is downloading multiple files. To let this page download files anyway, there most likely be an icon with a down arrow and a line through it next to the URL of this page. Click on that icon and choose to allow downloads (if you wish to do so).</b>
 
+### I have temporarily disabled MSI file download while I make some changes. I apologize if that is the reason you are here today.
+
+<!--
 ### Executable Files
 #### (MSI files were built using <a href="https://briefcase.beeware.org/en/stable/" target="_blank">Beeware Briefcase</a>) - to open this link in a new tab use CTRL+Click or Command+Click on a MAC.
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
@@ -38,7 +41,7 @@ NOTE on Code: in order to download scripts:
 
 ### Android
 - [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
-
+-->
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)

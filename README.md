@@ -23,25 +23,21 @@ NOTE on Code: in order to download scripts:
 
 <b>Recently I discovered that some browsers will block downloads, thinking the site is downloading multiple files. To let this page download files anyway, there most likely be an icon with a down arrow and a line through it next to the URL of this page. Click on that icon and choose to allow downloads (if you wish to do so).</b>
 
-### I have temporarily disabled MSI file download while I make some changes. I apologize if that is the reason you are here today.
-
-<!--
 ### Executable Files
 #### (MSI files were built using <a href="https://briefcase.beeware.org/en/stable/" target="_blank">Beeware Briefcase</a>) - to open this link in a new tab use CTRL+Click or Command+Click on a MAC.
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
-- [Fill a PDF form - v2 MSI](https://github.com/tzucker02/PythonCode/blob/main/PDF%20Filler-2.0.6.msi).
+- [Fill a PDF form - v2 MSI](https://drive.google.com/uc?export=download&id=1zwplImsBhq9CPwIDN1Tmvt5nmtXTL9bY)
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) link to [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link)
-- [Python Functions Windows installer (MSI) - link to new google drive file that includes python source code](https://drive.google.com/open?id=1jjI1MTFHy8NYxRHvtzjEth3qCjxcwaqD).
-- [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1ZKWi--gUNnwNY8fbYWXewjYQQxmVjZ6Z)
-- [Clean Directory MSI - updated 5-12-2026](https://github.com/tzucker02/PythonCode/raw/main/Clean%20Directories-1.0.6.msi)
-- [Convert an image to a windows icon - MSI](https://github.com/tzucker02/PythonCode/raw/main/Image%20to%20ICO-1.1.0.msi)
-- [EDA MSI](https://drive.google.com/uc?export=download&id=1NBVlM26Ux7NxMil1eQcuwAdr4VVsPxcc)
-- [Check My Data](https://drive.google.com/uc?export=download&id=1Z0lfnV3svYJeLa1BkvW1WWOkChYtl1G5)
-
+- [Python Functions Windows installer (MSI) - link to new google drive file that includes python source code](https://drive.google.com/open?id=1tp1k8VBX7Wt3GydyV1QT5vv1Z599sRmt).
+- [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1R8ja8T8VwBdSG-N6TVEl5OpFaDVFkvlb)
+- [Clean Directory MSI - updated 5-12-2026](https://drive.google.com/uc?export=download&id=1nxET4V6GSBXMtNI05Rqcxcj2_3WzoLJZ)
+- [Convert an image to a windows icon - MSI](https://drive.google.com/uc?export=download&id=1Amk2AQpDzcx5n6swoPYYrVhE6XmlDezT)
+- [EDA MSI](https://drive.google.com/uc?export=download&id=1Whk2yVPT0owp4BBzlrJsdzW6biHvxX1r)
+- [Check My Data](https://drive.google.com/uc?export=download&id=1mpMVzONqj3yXFzFQi6yUuMhKl41dLg4W)
 ### Android
 - [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
--->
+
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)
@@ -81,10 +77,10 @@ These files are for downloading your New York Times Cooking recipe Box. You must
 
 - [NYT Cooking Recipe Box link downloader and PDF creator - just needs your login info](https://drive.google.com/uc?export=download&id=19cXFdXrk3fuC334jLuqvvX_Zg9Rgr0tx)
 - [Above with chromium download option](https://drive.google.com/uc?export=download&id=1FeD3lsaJQsyQ8uTu-cR3FS4wAHbr21Cp)
-
-### <B>Website Link Downloader:</b>
-- [Generic website Link Downloader with chromium download option - MSI link to google drive](https://drive.google.com/uc?export=download&id=1Zk2lrWH8rYJAoOLrWev6k92BPVSOSMV4)
 -->
+### <B>Website Link Downloader:</b>
+- [Generic website Link Downloader with chromium download option - MSI link to google drive](https://drive.google.com/uc?export=download&id=1j9FZOSLAXtcfB1qP0tdOBGA6rVEeKwmK)
+
 <!--
 - [Survived by age histogram of Titanic dataset](https://github.com/tzucker02/PythonCode/raw/main/survivedpassengershistogram.py)
 -->

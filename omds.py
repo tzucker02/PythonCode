@@ -1,3 +1,5 @@
+# IMPORTS
+
 import warnings
 
 import matplotlib.pyplot as plt
@@ -16,7 +18,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import (
     mean_absolute_error,
     mean_squared_error,
-    r2_score
+    r2_score, roc_curve, auc
 )
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
@@ -25,9 +27,231 @@ from sklearn.preprocessing import (
     PolynomialFeatures,
     StandardScaler
 )
+# --------------------------------------------------
+# Utility function: Plotting Training and Validation MSE and MAE
+# Takes the history object returned by fit
+# by Wayne Snyder
+# --------------------------------------------------
+def plot_history(history):
+    n_epochs = len(history.history['loss'])
+    epochs = range(1, n_epochs + 1)
+
+    plt.figure(figsize=(7, 8))
+
+    # MSE
+    plt.subplot(2, 1, 1)
+    plt.plot(epochs, history.history['loss'],
+             label='Training MSE', color='tab:red')
+    plt.plot(epochs, history.history['val_loss'],
+             label='Validation MSE', color='tab:red', linestyle='--')
+    plt.ylabel('MSE')
+    plt.title('Training and Validation Loss (MSE)')
+    plt.grid(True)
+    plt.legend()
+
+    # MAE
+    plt.subplot(2, 1, 2)
+    plt.plot(epochs, history.history['mae'],
+             label='Training MAE', color='tab:blue')
+    plt.plot(epochs, history.history['val_mae'],
+             label='Validation MAE', color='tab:blue', linestyle='--')
+    plt.xlabel('Epoch')
+    plt.ylabel('MAE')
+    plt.title('Training and Validation MAE')
+    plt.grid(True)
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+# --------------------------------------------------
+# Compare multiple training histories in a single plot
+# by Wayne Snyder
+# --------------------------------------------------
+
+def plot_comparison(histories, title, detail_ylim=None):
+    """Compare training and validation MSE across experiments."""
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+
+    for setting, history in histories.items():
+        epochs = range(1, len(history.history["loss"]) + 1)
+
+        line, = ax.plot(
+            epochs, history.history["loss"],
+            label=f"{setting} — Training"
+        )
+
+        ax.plot(
+            epochs, history.history["val_loss"],
+            color=line.get_color(),
+            linestyle="--",
+            label=f"{setting} — Validation"
+        )
+
+    ax.set_xlabel("Epoch")
+    ax.set_ylabel("MSE")
+    ax.set_title(title)
+
+    if detail_ylim is not None:
+        ax.set_ylim(*detail_ylim)
+
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+# --------------------------------------------------
+# Validation Curve for max_depth
+# by Wayne Snyder# --------------------------------------------------
+
+def evaluate_max_depth_values(max_depth_values):
+    """Fit and cross-validate a DecisionTreeRegressor pipeline for each
+    max_depth in max_depth_values, returning the mean/std training and
+    CV MAE for every value."""
+
+    training_maes = []
+    cv_maes = []
+
+    training_mae_stds = []
+    cv_mae_stds = []
+
+    for max_depth in max_depth_values:
+
+        # Construct the full preprocessing + modeling pipeline
+        max_depth_pipeline = make_pipeline(
+            preprocessor,
+
+            DecisionTreeRegressor(
+                criterion="squared_error",
+                max_depth=max_depth,
+                min_samples_split=2,
+                min_samples_leaf=1,
+                max_leaf_nodes=None,
+                max_features=None,
+                ccp_alpha=0.0,
+                random_state=random_seed
+            )
+        )
+
+        # Evaluate training and validation performance
+        # within each cross-validation fold
+        scores = cross_validate(
+            max_depth_pipeline,
+            X_mpg_development,
+            y_mpg_development,
+            scoring="neg_mean_absolute_error",
+            cv=regression_cv,
+            return_train_score=True,
+            n_jobs=-1
+        )
+
+        # Convert negative MAE scores to positive values
+        fold_training_maes = -scores["train_score"]
+        fold_cv_maes = -scores["test_score"]
+
+        # Store means
+        training_maes.append(fold_training_maes.mean())
+        cv_maes.append(fold_cv_maes.mean())
+
+        # Store standard deviations
+        training_mae_stds.append(fold_training_maes.std())
+        cv_mae_stds.append(fold_cv_maes.std())
+
+    return training_maes, cv_maes, training_mae_stds, cv_mae_stds
+
+# --------------------------------------------------
+# Validation Curve for ccp_alpha
+# by Wayne Snyder
+# --------------------------------------------------
+
+def evaluate_ccp_alpha_values(ccp_alpha_values):
+    """Fit and cross-validate a DecisionTreeRegressor pipeline for each
+    ccp_alpha in ccp_alpha_values, returning the mean/std training and
+    CV MAE for every value."""
+
+    training_maes = []
+    cv_maes = []
+
+    training_mae_stds = []
+    cv_mae_stds = []
+
+    for ccp_alpha in ccp_alpha_values:
+
+        # Construct the full preprocessing + modeling pipeline
+        ccp_alpha_pipeline = make_pipeline(
+            preprocessor,
+
+            DecisionTreeRegressor(
+                criterion="squared_error",
+                max_depth=None,
+                min_samples_split=2,
+                min_samples_leaf=1,
+                max_leaf_nodes=None,
+                max_features=None,
+                ccp_alpha=ccp_alpha,
+                random_state=random_seed
+            )
+        )
+
+        # Evaluate training and validation performance
+        # within each cross-validation fold
+        scores = cross_validate(
+            ccp_alpha_pipeline,
+            X_mpg_development,
+            y_mpg_development,
+            scoring="neg_mean_absolute_error",
+            cv=regression_cv,
+            return_train_score=True,
+            n_jobs=-1
+        )
+
+        # Convert negative MAE scores to positive values
+        fold_training_maes = -scores["train_score"]
+        fold_cv_maes = -scores["test_score"]
+
+        # Store means
+        training_maes.append(fold_training_maes.mean())
+        cv_maes.append(fold_cv_maes.mean())
+
+        # Store standard deviations
+        training_mae_stds.append(fold_training_maes.std())
+        cv_mae_stds.append(fold_cv_maes.std())
+
+    return training_maes, cv_maes, training_mae_stds, cv_mae_stds
+
+
+
+# ------------------------------------------------------------
+# ROC Curve Plotting Function
+# by Wayne Snyder
+# ------------------------------------------------------------
+
+def plot_roc_curve(y_true, y_score, label=None, ax=None):
+    """Compute and plot a ROC curve given true labels and predicted scores/probabilities."""
+    fpr, tpr, thresholds = roc_curve(y_true, y_score)
+    roc_auc = auc(fpr, tpr)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(6, 6))
+
+    curve_label = f"{label} (AUC = {roc_auc:.3f})" if label else f"AUC = {roc_auc:.3f}"
+    ax.plot(fpr, tpr, lw=2, label=curve_label)
+    ax.plot([0, 1], [0, 1], linestyle="--", color="gray", lw=1)
+
+    ax.set_xlim([0.0, 1.0])
+    ax.set_ylim([0.0, 1.05])
+    ax.set_xlabel("False Positive Rate")
+    ax.set_ylabel("True Positive Rate")
+    ax.set_title("ROC Curve")
+    ax.legend(loc="lower right")
+
+    return fpr, tpr, thresholds, roc_auc
 
 # ------------------------------------------------------------
 # Generic Function to Create Training, Validation, and Test Sets
+# by Wayne Snyder
 # ------------------------------------------------------------
 
 def create_train_validation_test_split(
@@ -74,6 +298,7 @@ def create_train_validation_test_split(
 
 # ------------------------------------------------------------
 # Function to Construct a Pipeline for a Specified Degree
+# by Wayne Snyder
 # ------------------------------------------------------------
 
 def create_polynomial_model(degree):
@@ -388,15 +613,31 @@ def mutual_info(df, target):
 
     return mi_scores
 
-def annotated_heatmap(df,  dfname, column_to_start, column_to_end, threshold, figsize):
+def annotated_heatmap(df,  dfname, column_to_start=0, column_to_end=None, threshold=0.5, figsize=(10, 7), vmin=-1, vmax=1):
+    """Generate an annotated heatmap for the correlation matrix of a dataframe.
+
+    Args:
+        df (pd.DataFrame): The input dataframe containing numerical columns.
+        dfname (str): The name of the dataframe, used for the plot title and saved file name.
+        column_to_start (int, optional): The starting column index for the heatmap. Defaults to 0.
+        column_to_end (int, optional): The ending column index for the heatmap. Defaults to None (all columns).
+        threshold (float, optional): The correlation threshold for highlighting cells. Defaults to 0.5.
+        figsize (tuple, optional): The size of the figure. Defaults to (10, 7).
+    """
     df=df.select_dtypes(include=['number'])
+
+    # Mask the upper triangle
+    mask = np.triu(
+        np.ones_like(df, dtype=bool),
+        k=1
+    )
 
     df_columns = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
     df_partial = df[df_columns].iloc[:, column_to_start:column_to_end]
     plt.figure(figsize=figsize)
     corr = df_partial.corr()
     
-    ax = sns.heatmap(corr, cmap="coolwarm", vmin=-1, vmax=1, annot=True)
+    ax = sns.heatmap(corr, cmap="coolwarm", vmin=vmin, vmax=vmax, annot=True, mask=mask)
     ax.set_title(f"Correlation Heatmap for {dfname} Dataset (Columns {column_to_start} to {column_to_end}) with a threshold set at {threshold:.0%} or above highlighted")
 
     for i in range(corr.shape[0]):
@@ -724,7 +965,7 @@ def RF_regressor(df, dfname, feature_cols, target_col):
 
     print(f"RandomForestRegressor RMSE on {dfname}: {rmse:.4f}")
     
-def kfold_cross_val(df,dfname,feature_cols,target_col):
+def kfold_cross_val(df,dfname,feature_cols,target_col, n_splits=5):
     import warnings
     import matplotlib.pyplot as plt
     import numpy as np
@@ -743,7 +984,7 @@ def kfold_cross_val(df,dfname,feature_cols,target_col):
     y = reg_df[target_col]
 
     # Define model settings and 5-fold CV
-    cv = KFold(n_splits=5, shuffle=True, random_state=42)
+    cv = KFold(n_splits=n_splits, shuffle=True, random_state=42)
     rmse_scores = []
     total_folds = cv.get_n_splits()
 
@@ -763,11 +1004,11 @@ def kfold_cross_val(df,dfname,feature_cols,target_col):
 
     # Plot fold-wise RMSE and overall average
     plt.figure(figsize=(8, 4.5))
-    plt.bar(range(1, 6), rmse_scores, color="#2a9d8f", edgecolor="black")
+    plt.bar(range(1, n_splits + 1), rmse_scores, color="#2a9d8f", edgecolor="black")
     plt.axhline(rmse_scores.mean(), color="#e76f51", linestyle="--", linewidth=2, label=f"Mean RMSE = {rmse_scores.mean():.4f}")
-    plt.xticks(range(1, 6), [f"Fold {i}" for i in range(1, 6)])
+    plt.xticks(range(1, n_splits + 1), [f"Fold {i}" for i in range(1, n_splits + 1)])
     plt.ylabel("RMSE")
-    plt.title(f"5-Fold Cross-Validation RMSE for {df.attrs.get('name', 'Dataset')}")
+    plt.title(f"{n_splits}-Fold Cross-Validation RMSE for {df.attrs.get('name', 'Dataset')}")
     plt.legend()
     plt.tight_layout()
     plt.show();

@@ -1,3 +1,7 @@
+# Wherever the author is not myself, I have tried to attribute to the author.  If I either do not remember where the script came from
+# or have altered it, I have left attribution blank. If you recognize your own script, and/or I have made a mistake, 
+# please contact me and I will correct it.
+
 # IMPORTS
 
 import warnings
@@ -104,7 +108,8 @@ def plot_comparison(histories, title, detail_ylim=None):
 
 # --------------------------------------------------
 # Validation Curve for max_depth
-# by Wayne Snyder# --------------------------------------------------
+# by Wayne Snyder
+# --------------------------------------------------
 
 def evaluate_max_depth_values(max_depth_values):
     """Fit and cross-validate a DecisionTreeRegressor pipeline for each

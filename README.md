@@ -25,7 +25,19 @@ NOTE on Code: in order to download scripts:
 
 ### Executable Files
 #### (MSI files were built using <a href="https://briefcase.beeware.org/en/stable/" target="_blank">Beeware Briefcase</a>) - to open this link in a new tab use CTRL+Click or Command+Click on a MAC.
+### 7-Day Trial 
+(After 7 days the application will no longer work. Otherwise they are fully functional.) There is one app, ***Python Functions***, which is the most extensive and all encompassing one by far, that is only available as a paid version - one time payment from my sponsors page.
+[![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02)
+- [Check my Data](https://drive.google.com/uc?export=download&id=1N-8z-NM6EWJclob4hhuPxwFJ9evelTUK)
+- [Clean Directories](https://drive.google.com/uc?export=download&id=1dWXEt_wLrFsOoJip3zjQa1SrZtOtteXj)
+- [EDA Tools](https://drive.google.com/uc?export=download&id=1DC4dRAvWJFjjL6Z4OxfH418hrSDwuE0-)
+- [Image to Icon](https://drive.google.com/uc?export=download&id=1OLqvKhu9XM1cP2YumhJZIfvpAB7_CmIa)
+- [PDF Filler](https://drive.google.com/uc?export=download&id=1QwL5FudvLEj2cXh5DrK5rdBPzOffshhQ)
+- [Map Restaurants](https://drive.google.com/uc?export=download&id=1OdBFCMxnAzp_WCwfl9DmGRooaTBBNFiJ)
+- [Website Link Downloader](https://drive.google.com/uc?export=download&id=1SOeyB4q4Va9gh8GQfbkN-ctA6P2uPhc0)
+
 - [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
+<!--
 - [Fill a PDF form - v2 MSI](https://drive.google.com/uc?export=download&id=1zwplImsBhq9CPwIDN1Tmvt5nmtXTL9bY)
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) link to [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link)
@@ -34,9 +46,9 @@ NOTE on Code: in order to download scripts:
 - [Convert an image to a windows icon - MSI](https://drive.google.com/uc?export=download&id=1Amk2AQpDzcx5n6swoPYYrVhE6XmlDezT)
 - [EDA MSI](https://drive.google.com/uc?export=download&id=1Whk2yVPT0owp4BBzlrJsdzW6biHvxX1r)
 - [Check My Data](https://drive.google.com/uc?export=download&id=1mpMVzONqj3yXFzFQi6yUuMhKl41dLg4W)
+-->
 ### Android
 - [Map of Restaurants app for Android - link](https://drive.google.com/uc?export=download&id=1J7rxAEJ1CBTi-WLnDKv3P3eqB28yisnX)
-
 ### Jupyter notebooks (.ipynb files)
 - [Train, fit and evaluate different models - most updated](https://github.com/tzucker02/PythonCode/blob/main/ModelEval.ipynb) - requests dataset path, dataset separator, and target (choice of available features)
 - [Run other Jupyter notebooks and put resultant timings in Python dictionary](https://github.com/tzucker02/PythonCode/blob/main/run_other_nb_with_timings.ipynb)

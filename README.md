@@ -37,7 +37,7 @@ NOTE on Code: in order to download scripts:
 - [Map Restaurants](https://drive.google.com/uc?export=download&id=1OdBFCMxnAzp_WCwfl9DmGRooaTBBNFiJ)
 - [Website Link Downloader](https://drive.google.com/uc?export=download&id=1SOeyB4q4Va9gh8GQfbkN-ctA6P2uPhc0)
 
-- [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is humongous!
+- [The Train, fit and evaluate different models script made into a Windows executable file](https://drive.google.com/open?id=1B8mkaOQVvBE9nw4PT-P-Zm4qtzm9Gnb8&usp=drive_fs) - note that this is a link to google drive since the file is too large for GitHub!
 <!--
 - [Fill a PDF form - v2 MSI](https://drive.google.com/uc?export=download&id=1zwplImsBhq9CPwIDN1Tmvt5nmtXTL9bY)
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory

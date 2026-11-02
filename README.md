@@ -30,6 +30,7 @@ NOTE on Code: in order to download scripts:
 [![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02)
 - [Check my Data](https://drive.google.com/uc?export=download&id=1N-8z-NM6EWJclob4hhuPxwFJ9evelTUK)
 - [Clean Directories](https://drive.google.com/uc?export=download&id=1dWXEt_wLrFsOoJip3zjQa1SrZtOtteXj)
+- [Download Links](https://drive.google.com/uc?export=download&id=1EnRT1b-ZzYdErAx85xPMPxiHQDHEFMmL)
 - [EDA Tools](https://drive.google.com/uc?export=download&id=1DC4dRAvWJFjjL6Z4OxfH418hrSDwuE0-)
 - [Image to Icon](https://drive.google.com/uc?export=download&id=1OLqvKhu9XM1cP2YumhJZIfvpAB7_CmIa)
 - [PDF Filler](https://drive.google.com/uc?export=download&id=1QwL5FudvLEj2cXh5DrK5rdBPzOffshhQ)

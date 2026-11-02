@@ -1,6 +1,6 @@
 ### [I'm here by mistake! Take me to the profile page.](https://github.com/tzucker02)
 [![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02)
-<p>(If you end up enjoying the MSIs and/or code on this page, feel free to click the sponsor button above to help me to continue to create such code. If you have suggestions and/or requests, also let me know - whether you decide to sponsor me or not.)</p>
+<p><B>(If you end up enjoying the MSIs and/or code on this page, feel free to click the sponsor button above to help me to continue to create such code. Once you become a sponsor you will not only be helping me, but you will receive a link to MSI(s) without a "Sponsor Me" link.</B> If you have suggestions and/or requests, also let me know - whether you decide to sponsor me or not.)</p>
 
 # Python Code Snippets
 After some rather intensive courses, one of which was all about coding in Python - using Jupyter notebooks, I kind of got hooked.  I continued doing some Python coding because it was, well. fun! If that makes me a geek, so be it.  In the end, I wrote several little Python functions that did a lot of what my professor had been asking us to do during the semester, but did it in a much easier way (at least for anyone else who is using the functions). I have uploaded a couple of them here. If you find them at all useful, feel free to credit me. On the other hand, if you find they need reworking, I am also happy to hear about it. Contact me if you have suggestions or problems or want to talk about Pythonic issues!
@@ -29,9 +29,6 @@ NOTE on Code: in order to download scripts:
 - [Fill a PDF form - v2 MSI](https://drive.google.com/uc?export=download&id=1zwplImsBhq9CPwIDN1Tmvt5nmtXTL9bY)
 - [File watcher executable](https://github.com/tzucker02/PythonCode/raw/main/file_watcher.exe) - an excellent script to watch any changes to a given directory
 - [Regression Plotter](https://github.com/tzucker02/PythonCode/raw/main/Regplotter.exe) link to [MSI](https://drive.google.com/file/d/1sv3cfMOJRca_h5FlEazSg6IeLQpqstMI/view?usp=drive_link)
-<!--
-- [Python Functions Windows installer (MSI) - link to new google drive file that includes python source code](https://drive.google.com/open?id=1tp1k8VBX7Wt3GydyV1QT5vv1Z599sRmt).
--->
 - [Map of Restaurants app MSI - link](https://drive.google.com/uc?export=download&id=1R8ja8T8VwBdSG-N6TVEl5OpFaDVFkvlb)
 - [Clean Directory MSI - updated 5-12-2026](https://drive.google.com/uc?export=download&id=1nxET4V6GSBXMtNI05Rqcxcj2_3WzoLJZ)
 - [Convert an image to a windows icon - MSI](https://drive.google.com/uc?export=download&id=1Amk2AQpDzcx5n6swoPYYrVhE6XmlDezT)
@@ -54,7 +51,6 @@ NOTE on Code: in order to download scripts:
 - [Fill a PDF form](https://github.com/tzucker02/PythonCode/blob/main/fill_form.py)
 - [File watcher](https://github.com/tzucker02/PythonCode/blob/main/file_watcher.py) - a script to watch any changes to a given directory
 - [Convert an image to an icon file using python](https://github.com/tzucker02/PythonCode/blob/main/image2ico.py)
-- [Functions used in my OMDS homeworks](https://github.com/tzucker02/OMDS-Homeworks/blob/main/omds.py)
 - [Basic code to time your jupyter notebooks](https://github.com/tzucker02/PythonCode/blob/main/timer.py)
 - [Regression plot function](https://github.com/tzucker02/PythonCode/blob/main/regplotter%20function.py)
 - [Create a scatter plot of the cleansed titanic dataset linked to above](https://github.com/tzucker02/PythonCode/blob/main/scatter_plot.py)

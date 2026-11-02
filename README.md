@@ -73,7 +73,7 @@ NOTE on Code: in order to download scripts:
 - [Read file like above, but use an internal function call](https://github.com/tzucker02/PythonCode/blob/main/CMP_wcall.py)
 - [Plot the survival rate for passengers on the titanic](https://github.com/tzucker02/PythonCode/blob/main/plotsurvival.py)
 - [Vendor Manager repository](https://github.com/tzucker02/Vendor-Manager)
-- [File of all functions I used for several OMDS courses](https://github.com/tzucker02/PythonCode/blob/main/omds.py) - this file can be imported by following the instructions in this file [usage](https://github.com/tzucker02/PythonCode/blob/main/NOTE.md)
+- The file that contains all functions I have accumulated/written/etcetera during my coursework at Boston University (Where I am currently pursuing a Masters in Data Science degree) is available with a minimum donation through the [![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02) page. You can use it by following the instructions in this file [usage](https://github.com/tzucker02/PythonCode/blob/main/NOTE.md)
     
 ### Compressed files
 - [Vendor Manager](https://github.com/tzucker02/PythonCode/raw/main/Vendor%20Manager.zip)

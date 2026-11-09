@@ -1,5 +1,5 @@
 ### [I'm here by mistake! Take me to the profile page.](https://github.com/tzucker02)
-[![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02)
+[![Sponsor Me](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github&label=Sponsor%20Me)](https://github.com/sponsors/tzucker02)  [![GitHub Sponsors](https://img.shields.io/github/sponsors/tzucker02?label=Sponsors&logo=github)](https://github.com/sponsors/tzucker02)
 <p><B>(If you end up enjoying the MSIs and/or code on this page, feel free to click the sponsor button above to help me to continue to create such code. Once you become a sponsor you will not only be helping me, but you will receive a link to MSI(s) without a "Sponsor Me" link and fully functional without a trial period.</B> If you have suggestions and/or requests, also let me know - whether you decide to sponsor me or not.)</p>
 
 # Python Code Snippets
